@@ -1,9 +1,10 @@
-import {Link, useParams} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import { getHotel } from '../../services/hotelService';
 import { useContext, useEffect, useState } from 'react';
-import BookingContext from '../../context/booking/BookingContext';
+
 import AuthContext from '../../context/auth/AuthContext';
 import { toast } from 'react-toastify';
+import BookingContext from '../../context/booking/bookingContext';
 
 
 
@@ -13,6 +14,7 @@ const HotelDetails = () =>{
     const [hotel,setHotel] = useState(null)
     const [taotaGuest,setTotalGuest] = useState(bookingCtx.guest.adult + bookingCtx.guest.children)
     const [taotalCharge,setTotalCharge] = useState(0)
+    const navigate = useNavigate()
 
     useEffect(()=>{
       setTotalGuest(bookingCtx.guest.adult + bookingCtx.guest.children)
@@ -23,15 +25,32 @@ const HotelDetails = () =>{
     try{
      const response = await getHotel(id)
      setHotel(response.data)
-     bookingCtx.handleHotel(response.data)
+     bookingCtx.handleHotel(response.data) 
     }catch(err){
       toast.error(' Can not find hotel ', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
     })}
-    
+  }
 
+  const handleReserve = () =>{
+       if(!authCtx.user && hotel){
+        toast.error('Please login', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+      })
+       }else if(((!bookingCtx.date?.day || (!bookingCtx.guest.adult && !bookingCtx.guest.children) )&& hotel )){
+        toast.error('Please add guest details', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+      })
+       }else{
+          navigate('/payment')
+       }
+        //  navigate('/payment')
   }
 
   useEffect(()=>{
@@ -78,15 +97,11 @@ const HotelDetails = () =>{
          </div>
 
          <div className='flex justify-center items-center mt-4 w-80  bg-rose-500 text-white font-semibold rounded-lg p-4'>
-          <button>
-            <Link to={authCtx.user ? '/payment' : `/rooms/${id}`}>
+          <button onClick={handleReserve}>
+            {/* <Link to={ authCtx.user ? '/' : `/rooms/${id}`}> */}
             Reserve
-            {(!authCtx.user && hotel )&&  toast.error('Please login', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-            })}
-            </Link>
+            
+            {/* </Link> */}
             </button>
          </div>
 

@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import AuthContext from "../../context/auth/AuthContext";
-import BookingContext from "../../context/booking/BookingContext"
+import BookingContext from "../../context/booking/bookingContext";
+
 
 const PaymentPage = () => {
   const [clientSecret, setClientSecret] = useState(""); // To store client secret from the backend
@@ -31,6 +32,7 @@ const PaymentPage = () => {
     })
       .then((res) => res.json())
       .then((data) => { 
+        console.log('data',data)
         setClientSecret(data.clientSecret);
         setDpmCheckerLink(data.dpmCheckerLink); // Example if you're passing additional info
         setLoading(false); // Once the data is received, stop the loading state

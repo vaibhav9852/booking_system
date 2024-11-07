@@ -18,7 +18,13 @@ exports.createUser = async (req,res) =>{
               let {SALT_ROUND} = process.env;
               let hashPassword = await bcrypt.hash(password,+SALT_ROUND)
               let user = await User.create({name,email,password:hashPassword,role:role})
-            res.status(201).json({success:true,messgae:'User created',data:user.role})
+              const {SECRET_KEY} = process.env
+              function createJWT(payload){
+             return jwt.sign({payload},SECRET_KEY)
+              }
+              let validUser = await User.findOne({email}).select('-password')
+             // return res.status(200).json({success:true,user:validUser,token: createJWT(user.email)})                            
+            res.status(201).json({success:true,messgae:'User created',user:validUser,token: createJWT(user.email)})          // data:user.role                                    
            }
      }catch(err){
         res.status(500).json({success:false,messgae:'Internal server error'})
@@ -72,3 +78,27 @@ exports.updateUser = async (req,res) => {
       res.status(500).json({success:false,messgae:'Internal server error'})
    }
 }
+
+// get users 
+
+exports.getUsers = async (req,res) =>{
+   try{
+    let users = await User.find()
+    res.status(200).json({success:false,users})
+   }catch(err){
+      res.status(500).json({success:false,message:'Internal server error while get users'})
+   }
+}
+
+// delete user 
+exports.deleteUser = async (req,res) =>{
+ const {id} = req.params 
+ try{
+ let user = User.findByIdAndDelete(id)
+ res.status(200).json({success:true,message:'user deleted',user})
+ }catch(err){
+   res.status(500).json({success:false,message:'Internal server error while delete user'})
+ }
+}
+
+

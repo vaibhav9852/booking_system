@@ -14,18 +14,40 @@ exports.createBooking = async (req,res) =>{
     }
 }
 
-exports.getBookings = async (req,res) =>{
-     const {userId} = req.params 
-    console.log('userId ...',userId)
+exports.getBooking = async (req,res) =>{
+     const {id} = req.params 
+    console.log('userId at getBookings ...',id) 
       try{
-      let booking = await Booking.find({userId})
+      let booking = await Booking.find({userId:id})
       console.log('booking--',booking) 
-        res.status(200).json({success:true,message:'Booking successful',data:booking})
+        res.status(200).json({success:true,data:booking})
       }catch(err){
-  
           return res.status(500).json({success:false,message:'Internal server error'})
       }
   }
+
+  exports.getBookings = async (req,res) =>{
+     try{
+     let bookings = await Booking.find()
+       res.status(200).json({success:true,data:bookings})
+     }catch(err){
+         return res.status(500).json({success:false,message:'Internal server error'})
+     }
+ }
+
+
+exports.deleteBooking = async (req,res) =>{
+   let {id} = req.params
+   try{
+   let booking = await Booking.findByIdAndDelete(id)
+   res.status(200).json({success:true,booking})
+   }catch(err){
+    res.status(500).json({success:false,message:'Internal server error while delete booking'})
+   }
+}
+
+
+
 
 
 

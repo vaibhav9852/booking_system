@@ -24,7 +24,7 @@ import BookingContext from "../../../context/booking/bookingContext";
 
  const CheckOut = () => {
     let bookingCtx =  useContext(BookingContext)
-    let startDate = bookingCtx.date.start 
+    let startDate = bookingCtx.date?.start  
     console.log('start date',startDate,bookingCtx.date) 
   const [endDate, setEndDate] = useState(startDate);
   const filterEndDate = (endDate) => startDate < endDate;

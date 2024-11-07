@@ -1,5 +1,5 @@
 //  import { useState } from 'react'
-import {BrowserRouter, Routes , Route, Navigate} from 'react-router-dom'
+import {BrowserRouter, Routes , Route, Navigate, useLocation} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';  
 import 'react-toastify/dist/ReactToastify.css'; 
 
@@ -16,8 +16,10 @@ import { useContext } from 'react';
 import AuthContext from './context/auth/AuthContext';
 import Complete from './pages/Complete';
 import PaymentPage from './pages/PaymentPage';
-import BookingContext from './context/booking/BookingContext';
+
 import ChartPage from './components/common/chart/ChartPage';
+import Admin from './components/admin/Admin';
+import BookingContext from './context/booking/bookingContext';
 
 
 
@@ -29,16 +31,19 @@ return   authCtx.user ? element : <Navigate to='/' />;
 
 function App() {
  const bookingCtx = useContext(BookingContext)
+ let loaction = useLocation().pathname
+ console.log('location',loaction)
+ 
   return(
     <>
       {/* <Demo1></Demo1> */}
+   
    <AuthContextProvider>
      <BookingContextProvider>
-    <Navbar />
-
-
+  { (loaction != '/admin' && loaction != '/profile' )  &&  <Navbar />   }
+  
     <Routes>
-        <Route path='/' element={<Hotel />} />
+        <Route path='/' element={<Hotel />} /> 
          {/* <Route path='/hotel/:id' element={<HotelDetails />} />  */}
         <Route path='/signin' element={<SigninPage />} />
         <Route path='/signup' element={<SignupPage />} />
@@ -48,8 +53,9 @@ function App() {
         
         <Route path='/complete' element={<ProtectedRoute element={<Complete />} />} />
         <Route path='/payment' element={<ProtectedRoute element={<PaymentPage />} />} />
-        <Route path='/visualize' element={<ProtectedRoute element={<ChartPage />} />}  />                                                  
-    </Routes>
+        <Route path='/visualize' element={<ProtectedRoute element={<ChartPage />} />}  />
+        <Route path='/admin'  element={<ProtectedRoute element={<Admin />} />}   />                                               
+    </Routes> 
     <ToastContainer 
         position="top-right"
         autoClose={5000}

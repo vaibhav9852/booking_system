@@ -4,7 +4,8 @@ import React, { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
-import BookingContext from '../../context/booking/BookingContext';
+import BookingContext from '../../context/booking/bookingContext';
+
 
 const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const [loading, setLoading] = useState(false);  // To manage loading state during payment processing
@@ -12,7 +13,7 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-
+   
   // Handle the form submission
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)

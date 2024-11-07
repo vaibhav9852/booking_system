@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AuthContext from "../../context/auth/AuthContext";
 const URL = `http://localhost:8005/v1/user/signup`
 
 const SignUp = () =>{
+    
  const [user,setUser] = useState({name:'',email:'',password:''})
-
-
+ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+ const emailRegex =    /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
  const navigate = useNavigate()
+ const authCtx = useContext(AuthContext) 
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
+        if(!user.name || user.name.length<6){
+            toast.error('Invalid user name', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+            });
+        }
+         else if(!passwordRegex.test(user.password)){
+            toast.error('Invalid password', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+            });
+         }else if(!emailRegex.test(user.email)){
+            toast.error('Invalid email', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+            });
+         }else{
          try{
         const response = await fetch(`${URL}`,{
             method:'POST',
@@ -17,15 +41,19 @@ const SignUp = () =>{
             headers: {'Content-Type':'application/json'}
         })
         const data = await response.json()
-        
-        toast.success('Successfully sign up', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-        });
-       
+         console.log('data sigup',data)
+         if (data.success) {
+            authCtx.signIn(data.user)
+            localStorage.setItem('user', JSON.stringify(data))
+            setUser({ email: '', password: '' })
+            toast.success('Successfully sign up and sign in', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+            });
+        }
         setUser({name:'',email:'',password:''})
-        navigate('/signin')
+        navigate('/')
     }catch(err){
         toast.error('Invalid credential', {
             position: "top-right",
@@ -33,6 +61,7 @@ const SignUp = () =>{
             hideProgressBar: false,
         });
     }
+}
     }
 
     const handleChange = (event) =>{

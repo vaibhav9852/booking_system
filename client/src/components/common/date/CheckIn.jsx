@@ -29,7 +29,8 @@ import BookingContext from "../../../context/booking/bookingContext";
         selected={startDate}
         onChange={(date) =>  handleStartDateChange(date)}
         startDate={startDate}
-        className=" w-1/2"
+        title="date"
+         className=" w-1/2"
       />
       </div>
   );

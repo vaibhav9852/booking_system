@@ -33,6 +33,7 @@ exports.payment = async (req,res) =>{
   throw new Error('Invalid data')
 }
 }catch(err){
+  console.log('/payment error',err)
   res.status(500).json({sucess:false,message:'Internal server error'})
 }
 

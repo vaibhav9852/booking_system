@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import BookingContext from "../../context/booking/BookingContext";
+import BookingContext from "../../context/booking/bookingContext";
+
 
 
 const Guest = () =>{

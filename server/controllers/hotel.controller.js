@@ -29,12 +29,8 @@ async function upload(url) {
 
 exports.addHotel = async (req,res) =>{ 
     const {name,description,location,charge,available} = req.body
-  //  console.log('name,description,location,charge,available',name,description,location,charge,available)
+ 
     const data = req.files
-   // let imgURL ;
-  //  console.log('data',data)
-  //  const urls =   data.map( async (image) => await  upload(image.path))
-
     try{
    if(name && location && charge && data && available){
     Promise.all( data.map((image) => upload(image.path)))
@@ -61,9 +57,7 @@ exports.addHotel = async (req,res) =>{
 
 exports.getHotels = async (req,res) =>{
     try{
-        console.log('get hotels hit')
       let hotels = await Hotel.find();
-     console.log('hotels',hotels)
     res.status(200).json({success:true,data:hotels})
     }catch(err){
         res.status(500).json({success:false,message:`Internal error : ${err}`})
@@ -84,3 +78,40 @@ exports.getHotel = async (req,res) =>{
   }
 }
 
+
+exports.updateHotel = async (req,res) =>{
+    const {name,description,location,charge,available} = req.body
+   const {id} = req.params 
+    const data = req.files
+     // let imgURL ;
+    //  console.log('data',data)
+    //  const urls =   data.map( async (image) => await  upload(image.path))
+  
+      try{
+      Promise.all( data.map((image) => upload(image.path)))
+      .then( async (urls) => {
+          let hotel = await Hotel.findByIdAndUpdate(id,{
+              name,
+              description,
+              location,
+              charge,
+              image:urls,
+              available
+          })
+          res.status(201).json({success:true,message:'hotel added',data:hotel})
+      })
+    }catch(err){
+        res.status(500).json({success:false,message:'Internal server error while update hotel'})
+    }
+    
+}
+
+exports.deleteHotel = async (req,res) =>{
+    let {id} = req.params
+    try{
+  let hotel = await Hotel.findByIdAndDelete(id)
+   res.status(200).json({success:true,hotel})
+    }catch(err){
+     res.status(500),json({success:false,message:'Internal server error while delete hotel'})
+    }
+}

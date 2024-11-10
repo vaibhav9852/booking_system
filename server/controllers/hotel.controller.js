@@ -84,9 +84,9 @@ exports.updateHotel = async (req,res) =>{
    const {id} = req.params 
     const data = req.files
      // let imgURL ;
-    //  console.log('data',data)
+      console.log('data', typeof data , data)
     //  const urls =   data.map( async (image) => await  upload(image.path))
-  
+   console.log('update id',id)
       try{
       Promise.all( data.map((image) => upload(image.path)))
       .then( async (urls) => {
@@ -101,6 +101,7 @@ exports.updateHotel = async (req,res) =>{
           res.status(201).json({success:true,message:'hotel added',data:hotel})
       })
     }catch(err){
+        console.log('update error',err)
         res.status(500).json({success:false,message:'Internal server error while update hotel'})
     }
     

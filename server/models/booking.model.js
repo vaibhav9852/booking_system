@@ -29,3 +29,5 @@ const Booking = mongoose.model('Booking',bookingSchema)
 
 module.exports = Booking 
 
+// paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})
+

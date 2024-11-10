@@ -17,9 +17,11 @@ import AuthContext from './context/auth/AuthContext';
 import Complete from './pages/Complete';
 import PaymentPage from './pages/PaymentPage';
 
-import ChartPage from './components/common/chart/ChartPage';
 import Admin from './components/admin/Admin';
 import BookingContext from './context/booking/bookingContext';
+import AdminContextProvider from './context/admin/AdminContextProvider';
+import ForgotPassword from './components/auth/ForgotPassword';
+import ResetPassword from './components/auth/ResetPassword';
 
 
 
@@ -32,29 +34,34 @@ return   authCtx.user ? element : <Navigate to='/' />;
 function App() {
  const bookingCtx = useContext(BookingContext)
  let loaction = useLocation().pathname
- console.log('location',loaction)
+
  
   return(
     <>
       {/* <Demo1></Demo1> */}
    
    <AuthContextProvider>
-     <BookingContextProvider>
-  { (loaction != '/admin' && loaction != '/profile' )  &&  <Navbar />   }
+   <AdminContextProvider>
+    <BookingContextProvider>
+    
+  { (loaction != '/admin' && (loaction != '/profile' && loaction != '/profile/edit') )  &&  <Navbar />   }
   
     <Routes>
         <Route path='/' element={<Hotel />} /> 
          {/* <Route path='/hotel/:id' element={<HotelDetails />} />  */}
-        <Route path='/signin' element={<SigninPage />} />
+     
         <Route path='/signup' element={<SignupPage />} />
+        <Route path='/signin' element={<SigninPage />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password/:token' element={<ResetPassword />} />
         <Route path='/rooms/:id' element={<HotelDetails />} />
         <Route path='/profile' element={<ProtectedRoute element={<ProfilePage />} />} />
         <Route path='/profile/edit' element={<ProfileEditPage />} />
-        
         <Route path='/complete' element={<ProtectedRoute element={<Complete />} />} />
         <Route path='/payment' element={<ProtectedRoute element={<PaymentPage />} />} />
-        <Route path='/visualize' element={<ProtectedRoute element={<ChartPage />} />}  />
-        <Route path='/admin'  element={<ProtectedRoute element={<Admin />} />}   />                                               
+   
+        <Route path='/admin'  element={<ProtectedRoute element={<Admin />} />}   />  
+
     </Routes> 
     <ToastContainer 
         position="top-right"
@@ -67,7 +74,9 @@ function App() {
         draggable
         pauseOnHover
       />
+        
     </BookingContextProvider>
+    </AdminContextProvider>
     </AuthContextProvider> 
 
     </>

@@ -8,7 +8,7 @@ const SignUp = () =>{
     
  const [user,setUser] = useState({name:'',email:'',password:''})
  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
- const emailRegex =    /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+ const emailRegex =   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
  const navigate = useNavigate()
  const authCtx = useContext(AuthContext) 
 
@@ -91,7 +91,7 @@ const SignUp = () =>{
                 </div>
 
                 <div className="flex  justify-center items-center">
-                <input type="submit" className="bg-blue-500 items-center p-2 text-slate-200   border-4 rounded-md my-4" />
+                <input type="submit" className="bg-blue-500 items-center p-2 text-slate-200   rounded-lg my-4 hover:bg-blue-600" />
                 </div>
             </form>
         </div>

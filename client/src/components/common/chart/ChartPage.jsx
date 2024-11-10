@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Data } from "./Data";
 import { BarChart } from "./BarChart";
 import AuthContext from "../../../context/auth/AuthContext";
+import { toast } from "react-toastify";
 // import "./styles.css";
 
 Chart.register(CategoryScale); 
@@ -29,8 +30,8 @@ export default function ChartPage() {
   });
   const authCtx = useContext(AuthContext)
 
-  // let URL = `http://localhost:8005/v1/bookings/${authCtx.user?._id}`
   let URL = `http://localhost:8005/v1/bookings`
+  
   const  fetchBooking = async() =>{
    
     try{
@@ -41,7 +42,8 @@ export default function ChartPage() {
           }
       })
       let bookings = await response.json()
-     console.log('data chart ..',bookings)
+     console.log('data chart ..',bookings) 
+     if(bookings.data.length){
       setChartData({
         labels:  bookings.data.map((data) => data.createdAt?.split('T')[0]
       ), 
@@ -61,8 +63,13 @@ export default function ChartPage() {
           }
         ]
       })
+    }
     }catch(err){
-      console.log('err',err)
+      toast.error('Somthing wrong while fetch bookings', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+    });
     }
   }
 

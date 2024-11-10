@@ -26,7 +26,7 @@ const hotelSchema =  new Schema({
         },
 
         image:{
-            type:[{data:Buffer,type:String}] 
+            type:[{type:String}]  // string
         },
         
 })

@@ -9,6 +9,6 @@ router.post('/',  createBooking)
 
 router.get('/', getBookings)  
 
-router.get('/:id', getBooking)
+router.get('/:id', getBooking)  
 
 module.exports = router ;  

@@ -5,6 +5,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
 import BookingContext from '../../context/booking/bookingContext';
+import { createBooking } from '../../services/bookingService';
 
 
 const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
@@ -18,9 +19,11 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)
 
-  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?._id,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}                                                                                                                           
+  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?._id,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}     
+  console.log('bboking data',data)     
+  // paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})                                                                                                                 
 
-  const URL = 'http://localhost:8005/v1/booking'
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -50,15 +53,8 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
       } else if (paymentIntent.status === 'succeeded') {
         // Payment was successful, redirect to the "complete" page
     
-        let booking = await fetch(URL,{
-          method:'POST',
-          headers:{
-            'Content-Type' : 'application/json'
-          },
-          body : JSON.stringify(data)  
-        })
-
-        console.log('hit booking route',booking) 
+        const booking = await createBooking(data)
+        console.log('after create booking',booking) 
         console.log('Payment successful:', paymentIntent);
         navigate('/complete');
       }

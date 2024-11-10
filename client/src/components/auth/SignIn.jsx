@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import AuthContext from "../../context/auth/AuthContext";
-
 
 const SignIn = () => {
     const [user, setUser] = useState({ email: '', password: '' })
@@ -61,10 +60,11 @@ const SignIn = () => {
                         </div>
                         <div className="mx-4 p-4 w-96">
                             <label className="mx-6">Password</label>
-                            <input type="password" value={user.password} minLength={6} maxLength={10} onChange={handleChange} className="border-4 rounded-md p-2 w-96" />
+                            <input type="password" value={user.password} placeholder="password" minLength={6} maxLength={10} onChange={handleChange} className="border-4 rounded-md p-2 w-96" />
+                           <Link to="/forgot-password"> <p className=" font-semibold text-sm pt-2">Forgot password</p></Link>
                         </div>
                         <div className="flex items-center justify-center">
-                            <input type="submit" className="bg-blue-500 items-center p-2 text-slate-200   border-4 rounded-md my-4" />
+                            <input type="submit" className="bg-blue-500 items-center p-2 text-slate-200   rounded-lg my-4 hover:bg-blue-600" />
                         </div>
                     </form>
                 </div>

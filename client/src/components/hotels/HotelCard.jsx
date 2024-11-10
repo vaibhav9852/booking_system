@@ -1,13 +1,16 @@
 import {Link} from 'react-router-dom'
+import ImageSlider from '../common/ImageSlider';
 
 const HotelCard =  ({hotel}) =>{
-
+ console.log('hotel.image',hotel?.image)
     return(
         <>
      
         <div className="flex  w-64 h-1/6  p-4 m-1 flex-col justify-center items-center ">
-        <Link to={`/rooms/${hotel._id}`}>
-         <img src={`${hotel?.image[0]}`} alt="img" className="w-64  h-52 border-gray-100 rounded-xl"/>
+     
+         {/* <img src={`${hotel?.image[0]}`} alt="img" className="w-64  h-52 border-gray-100 rounded-xl"/> */}
+         <ImageSlider images={hotel?.image} />
+         <Link to={`/rooms/${hotel._id}`}>
           <div className="my-2">
           <div className="text-base font-bold">{hotel.name?.split(' ').slice(0,4).join(' ')}</div>
           <div className="text-sm font-light">{hotel.description?.split(' ').slice(0,4).join(' ')}</div> 

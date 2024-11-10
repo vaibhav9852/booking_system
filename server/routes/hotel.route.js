@@ -6,13 +6,13 @@ const { admin,authenticate  } = require('../middlewares/auth.middleware')
 const router = express.Router()
 const upload = multer({dest:'uploads/'})
 
-router.post('/',authenticate,admin,upload.array('photos'),addHotel)
+router.post('/',upload.array('photos'),addHotel)  // authenticate,admin 
 
 router.get('/',getHotels) 
 
 router.get('/:id',getHotel) 
 
-router.put('/:id',updateHotel)
+router.put('/:id',upload.array('photos'),updateHotel)
 
 router.delete('/:id',deleteHotel)
 

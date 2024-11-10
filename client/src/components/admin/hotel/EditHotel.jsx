@@ -1,13 +1,16 @@
-import { useState } from "react"
-import { toast } from "react-toastify"
-import { addHotel } from "../../../services/adminService"
+import { useState,  useEffect } from "react"
+
+import { useContext } from "react"
+import AdminContext from "../../../context/admin/adminContext"
+import { editHotel } from "../../../services/adminService"
 
 
-const AddHotel = () => {
+const EditHotel = () => {
+
     const [hotel, setHotel] = useState({ name:'', location:'', description:'', charge:'', available:0, photos:[] })
-
+   
+    const adminCtx = useContext(AdminContext) 
     const handleChange = (event) => {
-     
         let type = event.target.type 
         if(type == 'file'){
           setHotel({...hotel,'photos':[...event.target.files]})
@@ -15,10 +18,13 @@ const AddHotel = () => {
         setHotel({ ...hotel, [event.target.name]: event.target.value })
         }
     }
-  console.log('hotel',hotel)
+     
+
+
     const handleClick = async (event) => {
       event.preventDefault();
         console.log('hotel', hotel)
+        console.log(' hotel.photos', hotel.photos)
 
         if (hotel.name && hotel.location && hotel.charge) {
             let formData = new FormData()
@@ -29,8 +35,9 @@ const AddHotel = () => {
             formData.append('charge', hotel.charge)
             formData.append('available', hotel.available)
             console.log('form data', formData)
-            let data = await addHotel(formData)
-            console.log('data after add hotel', data)
+
+            let data = await editHotel(adminCtx.editHotelDetails._id,formData)
+            console.log('data after edit hotel', data)
 
         } else {
             toast.error('fill hotel required field', {
@@ -40,12 +47,19 @@ const AddHotel = () => {
             });
         }
     }
+      
+     useEffect(() =>{
+         console.log('ctx edit',adminCtx.editHotelDetails)
+         console.log('ctx edit id',adminCtx.editHotelDetails._id)
+         let { name,location, description, charge, available, photos } = adminCtx.editHotelDetails
+         setHotel({name,location,description,charge,available,photos })
+     },[])
 
     return (
-        <>
+        <> 
             <div className="flex  justify-center items-center py-2">
                 <div className=" w-3/5 h-max shadow-lg mt-10">
-                    <div className=" text-2xl font-bold text-center my-10">Add Hotel</div>
+                    <div className=" text-2xl font-bold text-center my-10">Edit Hotel</div>
                     <form encType="multipart/form-data" className=" flex flex-col justify-center  mx-6">
                         <div className=" flex justify-between py-4">
                             <lable className="mx-4 font-semibold text-gray-600 text-xl">Name</lable>
@@ -60,7 +74,7 @@ const AddHotel = () => {
                             <input type="text" name='description' value={hotel.description} placeholder="Enter hotel Description" className="px-5 border-2 " onChange={(event) => handleChange(event)} />
                         </div>
                         <div className=" flex justify-between py-4">
-                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Available Room</lable>
+                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Charge</lable>
                             <input type="number" name='charge' value={hotel.charge} placeholder="Enter Available Room" className="px-5 border-2 " onChange={(event) => handleChange(event)} />
                         </div>
                         <div className=" flex   py-4">
@@ -77,4 +91,5 @@ const AddHotel = () => {
     )
 }
 
-export default AddHotel;
+export default EditHotel ;
+

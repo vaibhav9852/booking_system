@@ -12,6 +12,7 @@ export const deleteUser = async (id) => {
    return data ? data : ''
 }
 
+
 export const getUsers = async () =>{
     let response = await fetch(`${URL}/user`,{
         method:'GET',
@@ -23,8 +24,22 @@ export const getUsers = async () =>{
    return data ? data : ''
 }
 
-export const hotels = async () =>{
-    let response = await fetch(`${URL}/hotel`,{
+
+export const addHotel = async (formData) =>{
+   let response = await fetch(`${URL}/hotels`,{
+    method:'POST',
+    body : formData,
+    // headers : {
+    //     'Content-Type' : 'multipart/form-data'
+    // }
+   })
+   let data = await response.json()
+
+   return data ? data : ''
+}
+
+export const getHotels = async () =>{
+    let response = await fetch(`${URL}/hotels`,{
         method:'GET',
         headers:{
             'Content-Type':'application/json'
@@ -35,20 +50,17 @@ export const hotels = async () =>{
     return data ? data : ''
 }
 
-export const editHotel = async (id) =>{
+export const editHotel = async (id,formData) =>{
 
-    let response = await fetch(`${URL}/hotel/${id}`,{
+    let response = await fetch(`${URL}/hotels/${id}`,{
         method:'PUT',
-        headers:{
-            'Content-Type':'application/json'
-        }
     })
-    let data = await response.json()
+    let data = formData
     return data ? data : ''
 }
 
 export const deleteHotel = async (id) =>{
-    let response = await fetch(`${URL}/hotel/${id}`,{
+    let response = await fetch(`${URL}/hotels/${id}`,{
         method : 'DELETE',
         headers : {
             'Content-Type' : 'application/json'
@@ -57,5 +69,12 @@ export const deleteHotel = async (id) =>{
     let data = await response.json()
     return data ? data : ''
 
+}
+
+export const getBookins = async () =>{
+  let response = await fetch(`${URL}/bookings`)
+  let data = await response.json()
+
+  return data ? data : ''
 }
 

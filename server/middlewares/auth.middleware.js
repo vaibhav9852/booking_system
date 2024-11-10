@@ -4,22 +4,34 @@ const User = require('../models/user.model')
 
 
 exports.authenticate = async (req,res,next) =>{
-    let token = req.headers['authorization']?.split(' ')[1] || req.headers['authorization']
-    if(!token){
-      res.status(403).json({success:false,message:'Token is required'})
-    }else{
-    try{
-        const {SECRET_KEY} = process.env
-      let payload = await jwt.verify(token,SECRET_KEY)
-      console.log('payload',payload)
-      let user = await User.findOne({email:payload.payload})
-      console.log('user',user)
-      req.user = user
-      next();
-    }catch(err){
-        res.status(500).json({success:false,message:'Internal server error while authenticate'})
-    }
+//     let token = req.headers['authorization']?.split(' ')[1] || req.headers['authorization']
+//     if(!token){
+//       res.status(403).json({success:false,message:'Token is required'})
+//     }else{
+//     try{
+//         const {SECRET_KEY} = process.env
+//       let payload = await jwt.verify(token,SECRET_KEY)
+//       console.log('payload',payload)
+//       let user = await User.findOne({email:payload.payload})
+//       console.log('user',user)
+//       req.user = user
+//       next();
+//     }catch(err){
+//         res.status(500).json({success:false,message:'Internal server error while authenticate'})
+//     }
   
+// }
+const token = req.cookies.sessionToken;
+if (!token) {
+  return res.status(401).json({ message: 'Authentication required' });
+}
+
+try {
+  const decoded = jwt.decode(token, process.env.JWT_SECRET);
+  req.user = decoded;
+  next();
+} catch (error) {
+  res.status(401).json({ message: 'Invalid or expired token' });
 }
 }
 
@@ -37,7 +49,7 @@ exports.admin = async (req,res,next) =>{
     }catch(err){
       res.status(500).json({success:false,message:'Internal server error while admin check'})
     } 
-  //  next();   
+    
 }
 
 

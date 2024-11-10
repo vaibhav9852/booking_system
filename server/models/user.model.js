@@ -24,7 +24,17 @@ const {Schema} = require('mongoose')
     role:{
       type : String,
       default : 'user'
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date, 
+    verified: {
+      type: Boolean,
+      default: false, 
+    },
+    verificationToken: {
+      type: String,
+      default: null, 
+    },
 
   })
 

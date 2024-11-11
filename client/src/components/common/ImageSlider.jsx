@@ -3,7 +3,6 @@ import { useState } from "react";
 const ImageSlider = ({ images }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    console.log('images',images)
     const nextImage = () => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     };
@@ -40,9 +39,3 @@ const ImageSlider = ({ images }) => {
   };
   
   export default ImageSlider;
-//   <ImageSlider images={images} />
-// const images = [
-//     "https://via.placeholder.com/400x250?text=Image+1",
-//     "https://via.placeholder.com/400x250?text=Image+2",
-//     "https://via.placeholder.com/400x250?text=Image+3"
-//   ];

@@ -23,9 +23,10 @@ const SignIn = () => {
                     headers: { 'Content-Type': 'application/json' }
                 })
                 const data = await response.json()
+                console.log('data',data)
                 if (data.success) {
-                    authCtx.signIn(data.user)
-                    localStorage.setItem('user', JSON.stringify(data))
+                    authCtx.signIn(data.data)
+                    localStorage.setItem('user', JSON.stringify(data.data))
                     setUser({ email: '', password: '' })
                     toast.success('Successfully logged in', {
                         position: "top-right",

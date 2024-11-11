@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom'
 import ImageSlider from '../common/ImageSlider';
 
 const HotelCard =  ({hotel}) =>{
- console.log('hotel.image',hotel?.image)
+
     return(
         <>
      

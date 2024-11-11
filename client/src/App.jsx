@@ -22,12 +22,13 @@ import BookingContext from './context/booking/bookingContext';
 import AdminContextProvider from './context/admin/AdminContextProvider';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
+import VerifyEmail from './components/auth/VerifyEmai';
 
 
 
 const ProtectedRoute = ({element}) =>{
   const authCtx = useContext(AuthContext)
- console.log('app ctx',authCtx.user)
+ console.log('app ctx',authCtx)
 return   authCtx.user ? element : <Navigate to='/' />;
 }
 
@@ -44,14 +45,15 @@ function App() {
    <AdminContextProvider>
     <BookingContextProvider>
     
-  { (loaction != '/admin' && (loaction != '/profile' && loaction != '/profile/edit') )  &&  <Navbar />   }
+  {/* { (loaction != '/admin' && (loaction != '/profile' && loaction != '/profile/edit') )  &&  <Navbar />   }
+   */}
+    <Navbar /> 
   
     <Routes>
         <Route path='/' element={<Hotel />} /> 
-         {/* <Route path='/hotel/:id' element={<HotelDetails />} />  */}
-     
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/signin' element={<SigninPage />} />
+        <Route path='/verify-email/:token' element={<VerifyEmail />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password/:token' element={<ResetPassword />} />
         <Route path='/rooms/:id' element={<HotelDetails />} />

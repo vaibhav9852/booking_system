@@ -41,19 +41,24 @@ const SignUp = () =>{
             headers: {'Content-Type':'application/json'}
         })
         const data = await response.json()
-         console.log('data sigup',data)
+   
          if (data.success) {
-            authCtx.signIn(data.user)
-            localStorage.setItem('user', JSON.stringify(data))
             setUser({ email: '', password: '' })
-            toast.success('Successfully sign up and sign in', {
+            toast.success('Signup successful. Please check your email for verification link', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+            });
+            navigate('/')
+        }else{
+            toast.error(`User already exist`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
             });
         }
         setUser({name:'',email:'',password:''})
-        navigate('/')
+       
     }catch(err){
         toast.error('Invalid credential', {
             position: "top-right",
@@ -71,9 +76,7 @@ const SignUp = () =>{
     return(
         <>
         <div className="flex w-full  items-center justify-center">
-            {/* <div className=" flex  flex-col">
-            
-            </div> */}
+         
             <form onSubmit={handleSubmit}>
                 <div className="mx-4 p-4 w-96">
                 <label className="mx-6">Name</label>

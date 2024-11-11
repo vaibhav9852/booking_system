@@ -46,3 +46,16 @@ export const resetPassword = async (token,password) =>{
     let respData = await response.json()
     return respData;
 }
+
+export const verifyEmail = async (token) => {
+    let response = await fetch(`${URL}/user/verify-email/${token}`,{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization' : `Bearer ${token}`
+        }
+    })
+
+    let respData = await response.json()
+    return respData;
+}

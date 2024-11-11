@@ -27,7 +27,7 @@ if (!token) {
 }
 
 try {
-  const decoded = jwt.decode(token, process.env.JWT_SECRET);
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
   req.user = decoded;
   next();
 } catch (error) {

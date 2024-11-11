@@ -17,10 +17,11 @@ exports.forgotPassword = async (req,res) =>{
   user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
   user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
   await user.save();
- console.log('user after save',user)
+
  const origin = req.headers.origin || FRONTEND_URL;
 const resetUrl = `${origin}/reset-password/${resetToken}`;
-  //const resetUrl = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`;
+ 
+
   const message = `To reset your password, please click the link: ${resetUrl}`;
            try{
            await sendEmail({

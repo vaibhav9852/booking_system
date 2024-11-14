@@ -90,7 +90,7 @@ const SignUp = () =>{
 
                 <div className="mx-4 p-4 w-96">
                 <label className="mx-6">Password</label>
-                <input type="password" name='password' value={user.password} placeholder="password" minLength={6} maxLength={10} required onChange={handleChange} className="border-4 rounded-md p-2 w-96"/>
+                <input type="password" name='password' value={user.password} placeholder="password" minLength={8}  required onChange={handleChange} className="border-4 rounded-md p-2 w-96"/>
                 </div>
 
                 <div className="flex  justify-center items-center">

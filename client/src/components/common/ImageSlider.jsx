@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ImageSlider = ({ images }) => {
+const ImageSlider = ({ images , height }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const nextImage = () => {
@@ -14,7 +14,7 @@ const ImageSlider = ({ images }) => {
     };
   
     return (
-      <div className="relative w-full h-64 overflow-hidden rounded-lg">
+      <div className={`relative w-full ${ height ? height : 'h-60'}  overflow-hidden rounded-lg`}>
         <img
           src={images[currentImageIndex]}
           alt="slider"

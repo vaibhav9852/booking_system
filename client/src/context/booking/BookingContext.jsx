@@ -8,13 +8,17 @@ const BookingContext = createContext({
     locationFilter:false,
     paymentId:'',
     totalAmount:'',
+    featureFilter:'',
+    mapLocation:[],  
     handleTotalAmount:()=>{},
     handleGuest:()=>{},
     handleDay:()=>{},
     handleHotel:()=>{},
     handleLocation:()=>{},
     findByLocation:()=>{},
-    handlePaymentId:()=>{}
+    handlePaymentId:()=>{},
+    handleFeatureFilter:() => {},
+    handleMapLocation:() => {} 
 })
 
 export default BookingContext;

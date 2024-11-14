@@ -21,19 +21,30 @@ const hotelSchema =  new Schema({
             required: true,
             trim: true
         },
+        rooms:{
+           type : Number,
+           default:10
+        },
         available:{
-          type: Number 
+          type: Number ,
+          default:10
         },
 
         image:{
             type:[{type:String}]  // string
         },
+        features:{
+            type:[{type:String}]
+        },
+        coordinates:{
+            type : [Number]
+        }
         
 })
 
 const Hotel = mongoose.model('Hotel',hotelSchema)
 
-module.exports = Hotel; 
+module.exports = Hotel;  
 
 
 

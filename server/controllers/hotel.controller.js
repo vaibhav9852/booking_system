@@ -28,8 +28,8 @@ async function upload(url) {
 // add hotel 
 
 exports.addHotel = async (req,res) =>{ 
-    const {name,description,location,charge,available} = req.body
- 
+    const {name,description,location,charge,available,features,coordinates} = req.body                                                                                            
+    console.log('coordinates...',coordinates) 
     const data = req.files
     try{
    if(name && location && charge && data && available){
@@ -41,7 +41,9 @@ exports.addHotel = async (req,res) =>{
             location,
             charge,
             image:urls,
-            available
+            available,
+            features:features.split(','),
+            coordinates: coordinates.split(',')
         })
         res.status(201).json({success:true,message:'hotel added',data:hotel})
     })
@@ -70,7 +72,7 @@ exports.getHotel = async (req,res) =>{
 
   try{
    let hotel = await Hotel.findById(id)
-   console.log('hotel',hotel)
+   //console.log('hotel',hotel)
    res.status(200).json({success:true,data:hotel})
    
   }catch(err){ 
@@ -80,15 +82,17 @@ exports.getHotel = async (req,res) =>{
 
 
 exports.updateHotel = async (req,res) =>{
-    const {name,description,location,charge,available} = req.body
+    const {name,description,location,charge,available,features,coordinates} = req.body
    const {id} = req.params 
     const data = req.files
      // let imgURL ;
-      console.log('data', typeof data , data)
+      console.log('data', typeof data , data, features,coordinates)
+      console.log('req.body', req.body)
     //  const urls =   data.map( async (image) => await  upload(image.path))
    console.log('update id',id)
       try{
-      Promise.all( data.map((image) => upload(image.path)))
+        if(name && location && charge && data && available){
+      Promise.all( data?.map((image) => upload(image.path)))
       .then( async (urls) => {
           let hotel = await Hotel.findByIdAndUpdate(id,{
               name,
@@ -96,10 +100,15 @@ exports.updateHotel = async (req,res) =>{
               location,
               charge,
               image:urls,
-              available
+              available,
+              features: features.split(','),
+              coordinates: coordinates.split(',')
           })
           res.status(201).json({success:true,message:'hotel added',data:hotel})
       })
+    }else{
+       throw new Error('data missing')  
+    }
     }catch(err){
         console.log('update error',err)
         res.status(500).json({success:false,message:'Internal server error while update hotel'})

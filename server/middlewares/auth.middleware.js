@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/user.model')
+const User = require('../models/user.model.js')
 
 
 
 exports.authenticate = async (req,res,next) =>{
 //     let token = req.headers['authorization']?.split(' ')[1] || req.headers['authorization']
 //     if(!token){
-//       res.status(403).json({success:false,message:'Token is required'})
+//       res.status(403).json({success:false,message:'Token is required'}) 
 //     }else{
 //     try{
-//         const {SECRET_KEY} = process.env
+//         const {SECRET_KEY} = process.env 
 //       let payload = await jwt.verify(token,SECRET_KEY)
 //       console.log('payload',payload)
 //       let user = await User.findOne({email:payload.payload})
@@ -21,7 +21,12 @@ exports.authenticate = async (req,res,next) =>{
 //     }
   
 // }
+ 
+console.log('mid token 2',req.cookies)
+
 const token = req.cookies.sessionToken;
+console.log('mid token',token)
+
 if (!token) {
   return res.status(401).json({ message: 'Authentication required' });
 }

@@ -1,6 +1,6 @@
 
 const URL = 'http://localhost:8005/v1'
-
+import axios from 'axios'
 export const deleteUser = async (id) => {
     let response = await fetch(`${URL}/user/${id}`,{
         method:'DELETE',
@@ -16,12 +16,20 @@ export const deleteUser = async (id) => {
 export const getUsers = async () =>{
     let response = await fetch(`${URL}/user`,{
         method:'GET',
+        credentials: 'include',
         headers:{
             'Content-Type':'application/json'
-        }
+        },
+
     })
     let data = await response.json()
+    console.log('data',data) 
    return data ? data : ''
+// let user = await axios.get(`${URL}/user`,{  
+//     withCredentials : true
+// }) 
+//  console.log('user in admin',user)
+   
 }
 
 
@@ -54,9 +62,10 @@ export const editHotel = async (id,formData) =>{
 
     let response = await fetch(`${URL}/hotels/${id}`,{
         method:'PUT',
+        body: formData
     })
-    let data = formData
-    return data ? data : ''
+    let data = await response.json()
+    return data ? data : '' 
 }
 
 export const deleteHotel = async (id) =>{

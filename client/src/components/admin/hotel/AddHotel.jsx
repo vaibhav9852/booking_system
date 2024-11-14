@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { toast } from "react-toastify"
 import { addHotel } from "../../../services/adminService"
+import SelectLocation from "../../common/map/SelectLocation"
+import BookingContext from "../../../context/booking/BookingContext"
 
 
 const AddHotel = () => {
-    const [hotel, setHotel] = useState({ name:'', location:'', description:'', charge:'', available:0, photos:[] })
-
+    const [hotel, setHotel] = useState({ name:'', location:'', description:'', charge:'', available:10, photos:[] , coordinates:[] })                                                                                                                 
+    const [feature,setFeature] = useState([])
+ 
+    const bookingCtx = useContext(BookingContext) 
     const handleChange = (event) => {
      
         let type = event.target.type 
@@ -15,11 +19,11 @@ const AddHotel = () => {
         setHotel({ ...hotel, [event.target.name]: event.target.value })
         }
     }
-  console.log('hotel',hotel)
+  
     const handleClick = async (event) => {
       event.preventDefault();
         console.log('hotel', hotel)
-
+        console.log('features',feature)
         if (hotel.name && hotel.location && hotel.charge) {
             let formData = new FormData()
             hotel.photos?.map((photo) => formData.append('photos', photo))
@@ -28,9 +32,27 @@ const AddHotel = () => {
             formData.append('description', hotel.description)
             formData.append('charge', hotel.charge)
             formData.append('available', hotel.available)
+            formData.append('features',[...feature])
+            formData.append('coordinates',bookingCtx.mapLocation) 
             console.log('form data', formData)
             let data = await addHotel(formData)
-            console.log('data after add hotel', data)
+            console.log('data after add hotel', data) 
+            if(data.success){
+                toast.success('Hotel added', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                });
+                setHotel({ name:'', location:'', description:'', charge:'', available:0, photos:[] })
+                setFeature([])
+            }else{
+                toast.error('Something went wrong while add hotel', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                });
+            }
+
 
         } else {
             toast.error('fill hotel required field', {
@@ -39,6 +61,21 @@ const AddHotel = () => {
                 hideProgressBar: false,
             });
         }
+    }
+
+    const handleCheckChange = (event) =>{
+      
+      //console.log('onClick',event) 
+      const { value, checked } = event.target;
+      console.log('onClick',value, checked) 
+        
+       if(checked){
+          setFeature([...feature,value]) 
+       }else{
+         let filterFeature = feature.filter((item) => item != value)
+         setFeature(filterFeature) 
+       }
+   
     }
 
     return (
@@ -60,12 +97,44 @@ const AddHotel = () => {
                             <input type="text" name='description' value={hotel.description} placeholder="Enter hotel Description" className="px-5 border-2 " onChange={(event) => handleChange(event)} />
                         </div>
                         <div className=" flex justify-between py-4">
-                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Available Room</lable>
+                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Charge</lable>
                             <input type="number" name='charge' value={hotel.charge} placeholder="Enter Available Room" className="px-5 border-2 " onChange={(event) => handleChange(event)} />
                         </div>
-                        <div className=" flex   py-4">
+                        <div className=" flex justify-between  py-4">
+                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Features</lable>
+                          
+                              <div className="w-48 flex justify-start"> 
+                              <table className="table-auto border-separate ">
+                                <tbody>
+                                    <tr>
+                                        <td> <label>Beach</label></td>
+                                        <td> <input type="checkbox" value='beach'  name='beach' onChange={(e) => handleCheckChange(e)} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label>Goalf</label></td>
+                                        <td> <input type="checkbox" value='goalf'  name='goalf' onChange={(e) => handleCheckChange(e)} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label>Cabin</label></td>
+                                        <td> <input type="checkbox" value='cabin'  name='cabin' onChange={(e) => handleCheckChange(e)} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label>Pool</label></td>
+                                        <td> <input type="checkbox" value='pool'  name='pool' onChange={(e) => handleCheckChange(e)} /></td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                              </div>
+                        </div>
+                        <div className=" flex  justify-between py-4">
                             <lable className="mx-4 font-semibold text-gray-600 text-xl">Images</lable>
-                            <input type="file"  multiple value={hotel.image} className="px-40  text-white " onChange={(event) => handleChange(event)} />
+                          <div className="px-5 w-60">  <input type="file"  multiple value={hotel.image} className=" text-white " onChange={(event) => handleChange(event)} /> </div>
+                        </div>
+                        <div className=" flex  justify-between  py-8">
+                            <lable className="mx-4 font-semibold text-gray-600 text-xl">Select Location</lable>
+                            <div className="  w-60">
+                             <SelectLocation />
+                            </div>
                         </div>
                         <div className=" flex justify-center py-4">
                             <button onClick={(event) => handleClick(event)} className=" text-white bg-blue-500 p-3 rounded-lg mt-4">Submit</button>

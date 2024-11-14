@@ -8,7 +8,7 @@ const AdminContextProvider = ({children}) =>{
   const   [showBooking,setShowBooking] = useState(false)
   const   [showVisual,setShowVisual] = useState(false)
   const  [showAddHotel, setShowAddHotel] = useState(false)
-  const [editHotel,setEditHotel] = useState(false)
+  const [editHotel,setEditHotel] = useState(false) 
   const [editHotelDetails,setEditHotelDetails] = useState(false)
  
   const handleShowUser = () => {

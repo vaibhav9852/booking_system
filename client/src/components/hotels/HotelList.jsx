@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react"
 import HotelCard from "./HotelCard"
 import { getHotels } from "../../services/hotelService"
-import BookingContext from "../../context/booking/bookingContext"
+
 import Loading from "../common/Loading"
 import { toast } from "react-toastify"
+import BookingContext from "../../context/booking/BookingContext"
 
 
 const HotelList = () =>{
@@ -30,10 +31,19 @@ useEffect(()=>{
 
 useEffect(()=>{
   let filterHotel = hotels.filter((hotel) => hotel.location?.toLowerCase() == bookingCtx.location?.toLowerCase() )
-  filterHotel.length ? setHotels(filterHotel) : ''
+  filterHotel.length && setHotels(filterHotel) 
   // bookingCtx.handleLocation()
 },[bookingCtx.locationFilter])
 
+
+useEffect(()=>{
+  let filterHotel = hotels.filter((hotel) => hotel.features?.includes(bookingCtx.featureFilter) )
+  filterHotel.length && setHotels(filterHotel) 
+
+  console.log('filterHotel',filterHotel)
+  console.log('bookingCtx.featureFilter',bookingCtx.featureFilter) 
+},[bookingCtx.featureFilter])
+ 
   return (
     <>
     <div className="flex justify-center flex-wrap ">
@@ -42,7 +52,7 @@ useEffect(()=>{
     }
        {
      !hotels  &&  <Loading />
-    }
+    } 
   
     </div>
     </>

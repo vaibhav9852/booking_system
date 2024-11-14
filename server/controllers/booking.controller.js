@@ -8,6 +8,7 @@ exports.createBooking = async (req,res) =>{
     try{
     let booking = await Booking.create({paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})
     console.log('after create booking',booking)
+    booking.available -=  1  
       res.status(201).json({success:true,message:'Booking successful'})
     }catch(err){
        console.log('booking err',err)
@@ -46,6 +47,14 @@ exports.deleteBooking = async (req,res) =>{
     res.status(500).json({success:false,message:'Internal server error while delete booking'})
    }
 }
+
+
+// booking algo
+
+// check rooms particuler date 
+// if booking more tahn particuler date then room not available 
+// if lest then then book room 
+
 
 
 

@@ -1,6 +1,7 @@
 import {  useState } from "react"
 import BookingContext from "./BookingContext"
 
+
 const BookingContextProvider = ({children}) =>{
  const [guest,setGuest] = useState({})
  const [hotel,setHotel] = useState()
@@ -10,6 +11,8 @@ const BookingContextProvider = ({children}) =>{
  const [dpmCheckerLink,setDpmCheckerLink] = useState()
 const [paymentId,setPaymentId] = useState()
 const [totalAmount,setTotalAmount] = useState()
+const [featureFilter,setFeatureFilter] = useState()
+const [mapLocation,setMapLocation] = useState([20.5937, 78.9629])
 
  const handleGuest = (newGuest) =>{
     setGuest(newGuest)
@@ -38,12 +41,20 @@ const [totalAmount,setTotalAmount] = useState()
  const  handleTotalAmount = (value) =>{
     setTotalAmount(value)
  }
+ 
+ const handleFeatureFilter = (value) =>{
+    setFeatureFilter(value)
+ }
+
+const handleMapLocation = (value) => {
+   setMapLocation(value)
+}
 
     return(
-      <BookingContext.Provider value={{date,hotel,guest,location,locationFilter,paymentId,totalAmount,handleTotalAmount,handlePaymentId,handleLocation,handleGuest,handleDay,handleHotel,findByLocation}}>
+      <BookingContext.Provider value={{date,hotel,guest,location,locationFilter,paymentId,totalAmount,featureFilter,mapLocation,handleMapLocation,handleFeatureFilter,handleTotalAmount,handlePaymentId,handleLocation,handleGuest,handleDay,handleHotel,findByLocation}}>
          {children}
       </BookingContext.Provider>
     )
-}
+} 
 
 export default BookingContextProvider

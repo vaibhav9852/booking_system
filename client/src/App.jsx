@@ -28,8 +28,7 @@ import VerifyEmail from './components/auth/VerifyEmai';
 
 const ProtectedRoute = ({element}) =>{
   const authCtx = useContext(AuthContext)
- console.log('app ctx',authCtx)
-return   authCtx.user ? element : <Navigate to='/' />;
+return   authCtx.user?.verified ? element : <Navigate to='/' />;
 }
 
 function App() {

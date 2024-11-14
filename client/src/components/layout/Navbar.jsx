@@ -6,8 +6,13 @@ import CheckOut from '../common/date/CheckOut';
 import { useEffect, useRef, useState } from 'react'; 
 import { useContext } from 'react';
 import AuthCard from './AuthCard';
-import BookingContext from '../../context/booking/bookingContext';
 
+ import beach from '../../assets/images/beach.jpg'
+ import cabins from '../../assets/images/cabins.jpg'
+ import golfing from '../../assets/images/golfing.jpg'
+ import pool from '../../assets/images/pool.jpg'  
+import Icon_Button from '../../assets/icons/Icon_Button.svg'
+import BookingContext from '../../context/booking/BookingContext';
 
 const Navbar = () => {
 const [checkOut,setCheckOut] = useState(false)
@@ -18,8 +23,12 @@ const [showAuth,setShowAuth] = useState(false)
 
 const bookingCtx = useContext(BookingContext) 
 useEffect(()=>{
- setTotalGuest(bookingCtx.guest.adult + bookingCtx.guest.children)
-},[bookingCtx.guest])
+ setTotalGuest(bookingCtx.guest?.adult + bookingCtx.guest?.children) 
+},[bookingCtx.guest]) 
+
+const handleIconClick = async (value) =>{
+       bookingCtx.handleFeatureFilter(value) 
+}
 
 const cardRef = useRef(null);  
 const iconRef = useRef(null); 
@@ -27,7 +36,7 @@ const guestCardRef = useRef(null);
 const guestIconRef = useRef(null);
 
 const location = useLocation();
-const hideOnRoutes = ['/signin', '/signup', '/admin', '/reset-password/:token', '/forgot-password','/profile','profile/edit'];
+const hideOnRoutes = ['/signin', '/signup', '/admin',  '/forgot-password','/profile','profile/edit','/payment'];
 const isResetPasswordRoute = location.pathname?.split('/')[1] ==  'reset-password'; 
 const shouldHideNavbarContent = hideOnRoutes.some(route => location.pathname.startsWith(route)) || isResetPasswordRoute;
 
@@ -127,7 +136,7 @@ useEffect(() => {
                         </div>
 
                         <div onClick={() => bookingCtx.findByLocation(true)}>
-                            <img src='src/assets/icons/Icon Button.svg' alt='search' />
+                            <img src={Icon_Button} alt='search' />
                         </div>
 
                     </div>
@@ -136,6 +145,24 @@ useEffect(() => {
             
             </div>
             <div className='w-full border-gray-200 ' style={{ borderWidth: '1px' }}></div>
+     {!shouldHideNavbarContent &&      <div className='w-full flex justify-around py-3 '>
+                   <div className='flex justify-center items-center flex-col opacity-70 hover:opacity-100' onClick={() => handleIconClick('beach')}>
+                    <img src={beach} alt='beach' className='flex justify-center   w-8 h-8' />
+                   Beach 
+                    </div>
+                    <div className='flex justify-center items-center flex-col  opacity-70 hover:opacity-100' onClick={() => handleIconClick('cabin')}>
+                    <img src={cabins} alt='beach' className='flex  justify-center items-center w-8 h-8' />
+                    Cabins  
+                    </div>
+                    <div className='flex justify-center items-center flex-col  opacity-70 hover:opacity-100' onClick={() => handleIconClick('goalf')}>
+                    <img src={golfing} alt='beach' className='flex justify-center w-8 h-8' />
+                    Goalfing 
+                    </div>
+                    <div className='flex justify-center items-center flex-col  opacity-70 hover:opacity-100' onClick={() => handleIconClick('pool')}>
+                    <img src={pool} alt='beach' className='flex justify-center w-8 h-8' />
+                    Amazing pools 
+                    </div>
+            </div> }
         </>
     )
 }

@@ -9,6 +9,7 @@ import Bookings from "./booking/Bookings"
 import EditHotel from "./hotel/EditHotel"
 
 
+
 const Admin = () =>{
 
   const adminCtx = useContext(AdminContext)
@@ -33,6 +34,7 @@ const Admin = () =>{
             { adminCtx.showAddHotel && <AddHotel />}
             { adminCtx.editHotel && <EditHotel />}
         </div> 
+    
         </>
     )
 }

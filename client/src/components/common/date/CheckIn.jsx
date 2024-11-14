@@ -13,8 +13,8 @@ import BookingContext from "../../../context/booking/bookingContext";
  const bookingCtx = useContext(BookingContext)
 
  useEffect(()=>{
-  bookingCtx.handleDay({start:startDate})
- },[startDate])
+  bookingCtx.handleDay({start:startDate})   
+ },[startDate]) 
 
 
   let handleStartDateChange = (date) =>{

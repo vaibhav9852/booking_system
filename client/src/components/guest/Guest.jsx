@@ -5,8 +5,8 @@ import BookingContext from "../../context/booking/bookingContext";
 
 const Guest = () =>{
 const bookingCtx =  useContext(BookingContext)
-const [adult,setAdult] =  useState(bookingCtx.guest.adult || 0)
-const [children,setChildren] =  useState(bookingCtx.guest.children || 0)
+const [adult,setAdult] =  useState(bookingCtx.guest?.adult || 0)
+const [children,setChildren] =  useState(bookingCtx.guest?.children || 0)
 
 console.log('adult , children',adult,children)
 
@@ -27,7 +27,7 @@ console.log('adult , children',adult,children)
 
             <div className=" text-2xl">
             <button onClick={()=> setAdult(adult+1)} className="px-3"> + </button>
-            {bookingCtx.guest.adult}
+            {bookingCtx.guest?.adult}
             <button onClick={()=> setAdult(adult <= 0 ? 0 : adult-1)} className="px-3">-</button>
             </div>
 
@@ -41,7 +41,7 @@ console.log('adult , children',adult,children)
 
             <div className="text-2xl">
             <button onClick={()=> setChildren(children+1)} className="px-3">+</button>
-            {bookingCtx.guest.children}
+            {bookingCtx.guest?.children}
             <button onClick={()=> setChildren(children <= 0 ? 0 : children-1)}className="px-3">-</button>
         </div>
         </div>

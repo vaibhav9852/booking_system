@@ -1,8 +1,9 @@
 const express = require('express')
 const {createUser,loginUser, updateUser, deleteUser, getUsers, verifyEmail, logout} = require('../controllers/user.controller.js')
-const { model } = require('mongoose')
 
-const router = express.Router()
+const { authenticate, admin } = require('../middlewares/auth.middleware.js')
+
+const router = express.Router() 
 
 router.post('/signup',createUser)
 
@@ -12,10 +13,11 @@ router.post('/signin',loginUser)
 
 router.post('/logout',logout) 
 
-router.put('/:id',updateUser)
+router.put('/:id',updateUser) 
 
-router.get('/',getUsers)
+router.get('/',authenticate, getUsers)  // authenticate 
 
-router.delete('/:id',deleteUser) 
+router.delete('/:id',deleteUser)  
 
-module.exports = router
+module.exports = router  
+

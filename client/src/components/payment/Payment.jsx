@@ -23,14 +23,14 @@ const PaymentPage = () => {
     // Fetch the payment details (clientSecret) from the backend when the component mounts
     let price = +bookingCtx.hotel?.charge * + bookingCtx.date?.day * (+bookingCtx.guest?.adult + +bookingCtx.guest?.children) + Math.floor(+bookingCtx.hotel?.charge / 7)
     bookingCtx.handleTotalAmount(price)
-    console.log('price..',price) 
+    console.log('price..',price,authCtx) 
     if(bookingCtx.date?.day && (bookingCtx.guest?.adult || bookingCtx.guest?.children) ){
     fetch("http://localhost:8005/v1/payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ hotelId: bookingCtx.hotel?._id || 1, userId: authCtx.user?._id || 2, totalAmount:price || 200 }), // Example data
+      body: JSON.stringify({ hotelId: bookingCtx.hotel?._id || 1, userId: authCtx.user?.userId || 2, totalAmount:price || 200 }), // Example data
     })
-      .then((res) => res.json())
+      .then((res) => res.json()) 
       .then((data) => { 
         console.log('data',data)
         setClientSecret(data.clientSecret);
@@ -50,6 +50,7 @@ const PaymentPage = () => {
     });
     setLoading(false)
     }
+ 
   }, []); // Empty dependency array ensures this runs once after mount
 
   if (loading) {

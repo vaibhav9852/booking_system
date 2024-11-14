@@ -52,10 +52,23 @@ export const verifyEmail = async (token) => {
         method:'POST',
         headers:{
             'Content-Type':'application/json',
-            'Authorization' : `Bearer ${token}`
+            // 'Authorization' : `Bearer ${token}`
         }
     })
 
     let respData = await response.json()
     return respData;
+}
+
+
+export const signOut = async () =>{
+ let response = await fetch(`${URL}/user/logout`,{
+    method : 'POST',
+    headers : {
+        'Content-Type':'application/json',
+    }
+ })
+ let data = await response.json()
+
+ return data;
 }

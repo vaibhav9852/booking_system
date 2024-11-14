@@ -19,7 +19,7 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)
 
-  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?._id,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}     
+  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?.userId,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}     
   console.log('bboking data',data)     
   // paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})                                                                                                                 
 
@@ -62,16 +62,14 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
       console.error('Error during payment processing:', error);
       setErrorMessage('An error occurred. Please try again.');
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);     
     }
   };
-
+ 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 py-8">
       <div className="max-w-lg w-full bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center text-green-600 mb-6">Complete Your Payment</h2>
-
-        {/* Show error message if any */}
         {errorMessage && (
           <div className="text-red-500 text-center mb-4">
             <p>{errorMessage}</p>

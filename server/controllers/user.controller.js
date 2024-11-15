@@ -75,17 +75,19 @@ exports.verifyEmail = async (req, res) => {
     const genrateToken = (payload, secret, options) => {
       return jwt.sign(payload, secret, options)
     }
-    const sessionToken = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-    console.log('seesionToken...', sessionToken)
 
-    res.cookie('sessionToken', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
-      maxAge: 60 * 60 * 1000, // 1 hour expiration
-      sameSite: 'None',
-    });
+    const token = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    // const sessionToken = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+   
 
-    res.status(200).json({ success: true, data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id }, message: 'Email verified successfully!' });
+    // res.cookie('sessionToken', sessionToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
+    //   maxAge: 60 * 60 * 1000, // 1 hour expiration
+    //   sameSite: 'None',
+    // });
+
+    res.status(200).json({ success: true, data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id },token });
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid or expired token' });
   }
@@ -114,15 +116,16 @@ exports.loginUser = async (req, res) => {
           const genrateToken = (payload, secret, options) => {
             return jwt.sign(payload, secret, options) 
           }
-          const sessionToken = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-          res.cookie('sessionToken', sessionToken, {
-            httpOnly: true,
-            secure:false, // process.env.NODE_ENV === 'production',  // Use HTTPS in production
-            maxAge:  60 * 60 * 1000,  // Expires in 1 hour
-            sameSite: 'None',
-          });
+          const token = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+          //  const sessionToken = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+          // res.cookie('sessionToken', sessionToken, {
+          //   httpOnly: true,
+          //   secure: process.env.NODE_ENV === 'production',  // Use HTTPS in production
+          //   maxAge:  60 * 60 * 1000,  // Expires in 1 hour
+          //   sameSite: 'None',
+          // }); 
 
-          return res.status(200).send({ success: true, data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id } })
+          return res.status(200).send({ success: true,  data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id }, token })
         } 
       }   
     } catch (err) {
@@ -174,8 +177,9 @@ exports.deleteUser = async (req, res) => {
 
 
 exports.logout = (req, res) => {
-  res.clearCookie('sessionToken');
-  res.status(200).json({success:true, message: 'Logged out successfully' });
+  // res.clearCookie('sessionToken');
+  // res.status(200).json({success:true, message: 'Logged out successfully' });
+  
 }
 
 

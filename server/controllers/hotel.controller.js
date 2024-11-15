@@ -56,13 +56,13 @@ exports.addHotel = async (req,res) =>{
 } 
 
 }
+ 
 
 exports.getHotels = async (req,res) =>{
     try{
 
         let page = parseInt(req.query.page) || 1
-        console.log('page',page)
-        let limit = 6
+        let limit = 4 
         let offset = (page-1) * limit 
         let hotels = await Hotel.find().skip(offset).limit(limit) 
         res.status(200).json({success:true,data:hotels})  

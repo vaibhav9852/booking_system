@@ -9,6 +9,7 @@ import BookingContext from "../../context/booking/BookingContext"
 
 const HotelList = () =>{
 const [hotels,setHotels] = useState([])
+const [filterHotels,setFilterHotels] = useState([])
 const [loading,setLoading] = useState(false)
 const [page,setPage] = useState(1) 
 const bookingCtx = useContext(BookingContext)
@@ -16,7 +17,8 @@ const bookingCtx = useContext(BookingContext)
 const fetchHotels = async (pageNum) =>{
   setLoading(true)
     try{
-     let hotels = await getHotels(pageNum)
+     let hotels = await getHotels(pageNum || 1)
+     console.log(' hotels.data',pageNum, hotels.data)
      setHotels( (prevHotels) => [...prevHotels,...hotels.data])  
     }catch(error){
       toast.error('Something wrong while fetch hotels', {
@@ -75,58 +77,59 @@ useEffect(()=>{
   return ()=>{
     window.removeEventListener("scroll", debounceHandleScroll); 
   }
-})
+},[])
 
-
-
-
-
-
-
-
-// useEffect(()=>{
-//   let filterHotel =  hotels.filter( (hotel) => hotel.location?.toLowerCase() == bookingCtx.location?.toLowerCase() )
+// useEffect(()=>{  
+//   if(bookingCtx.locationFilter){
+     
+//   let filterHotel =  hotels.filter( (hotel) => hotel.location?.toLowerCase() == bookingCtx.location?.trim()?.toLowerCase() )                                                             
 //   filterHotel.length && setHotels(filterHotel) 
 //    bookingCtx.findByLocation(false)
+//         // booking
+//   console.log('filter hotel', filterHotel) 
 //   console.log('bookingCtx.locationFilter',bookingCtx.locationFilter , bookingCtx.location)
-// },[bookingCtx.locationFilter])
+//   }else{
+     
+//   }
+// },[bookingCtx.locationFilter , bookingCtx.location])
+
 
 useEffect(() => {
   if (bookingCtx.locationFilter) {
-    // Apply location filter when it's set to true
-    if (bookingCtx.location) {
-      const filterByLocation = hotels.filter(
-        (hotel) =>
-          hotel.location?.toLowerCase() === bookingCtx.location?.toLowerCase()
-      );
+    if (bookingCtx.location) { 
 
-      // Only update the hotels if there are matching hotels
+      if(filterHotels.length){
+        fetchHotels(page) 
+      }
+         
+      const filterByLocation = hotels.filter( (hotel) => hotel.location?.toLowerCase() === bookingCtx.location?.trim().toLowerCase() );
+
+       bookingCtx.findByLocation(false)
+       bookingCtx.handleLocation()
+  
       if (filterByLocation.length > 0) {
         setHotels(filterByLocation);
+        setFilterHotels(filterByLocation)
       } else {
-        // Optionally, show a message that no hotels match the filter
+        
         setHotels([]);
       }
     } else {
-      // If no location is provided, fetch all hotels (or do nothing)
       fetchHotels(page);
     }
+    bookingCtx.findByLocation(false); 
 
-    // Reset locationFilter to false after applying the filter
-    bookingCtx.findByLocation(false); // Reset context flag after filter is applied
-
-    console.log("Filtered Hotels:", hotels);
+    console.log("Filtered Hotels:",bookingCtx.locationFilter, bookingCtx.location, hotels);
   }
-}, [bookingCtx.locationFilter, bookingCtx.location]); 
+}, [bookingCtx.locationFilter, bookingCtx.location ]);  // , bookingCtx.location
 
 
 useEffect(()=>{
   let filterHotel = hotels.filter((hotel) => hotel.features?.includes(bookingCtx.featureFilter) )
-  filterHotel.length && setHotels(filterHotel) 
-
-  console.log('filterHotel',filterHotel)
-  console.log('bookingCtx.featureFilter',bookingCtx.featureFilter) 
-},[bookingCtx.featureFilter])
+  filterHotel.length && setHotels(filterHotel)  
+  console.log('filterHotel',filterHotel) 
+  console.log('bookingCtx.featureFilter',bookingCtx.featureFilter)    
+},[bookingCtx.featureFilter]) 
  
   return (
     <>

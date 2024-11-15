@@ -1,4 +1,5 @@
-
+const token = JSON.parse( localStorage.getItem('token'))
+console.log('token in admin',token) 
 const URL = 'http://localhost:8005/v1'
 // import axios from 'axios'
 
@@ -15,17 +16,18 @@ export const deleteUser = async (id) => {
 
 
 export const getUsers = async () =>{
+    console.log('token...',token)
     let response = await fetch(`${URL}/user`,{
         method: 'GET',
-        credentials: 'include',
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization' : `Bearer ${token}`
+        }
     })
     let data = await response.json()
     console.log('data',data) 
    return data ? data : ''
-// let user = await axios.get(`${URL}/user`,{  
-//     withCredentials : true
-// }) 
-//  console.log('user in admin',user)
+  //  credentials: 'include',
    
 }
 

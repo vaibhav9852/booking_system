@@ -11,12 +11,14 @@ const authCtx = useContext(AuthContext)
   const handleSignOut = async () =>{
 
    props.updateFun(false)
-     let response = await signOut()
-     console.log('response',response)
-     if(response.success){
-            authCtx.signOut()
-            navigate('/signin')
-     }
+   authCtx.signOut()
+   navigate('/signin')
+    //  let response = await signOut()
+    //  console.log('response',response)
+    //  if(response.success){
+    //         authCtx.signOut()
+    //         navigate('/signin')
+    //  }
   }
     return(
         <>

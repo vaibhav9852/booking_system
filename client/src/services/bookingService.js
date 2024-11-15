@@ -1,10 +1,12 @@
-  const URL = 'http://localhost:8005/v1/bookings' 
+  const token = JSON.parse(localStorage.getItem('token'))
+  console.log('token',token )
+ const URL = 'http://localhost:8005/v1/bookings' 
 export const createBooking = async (data) =>{
    
     let response = await fetch(URL,{
         method:'POST',
         headers:{
-          'Content-Type' : 'application/json'
+          'Content-Type' : 'application/json' 
         },
         body : JSON.stringify(data)  
       })

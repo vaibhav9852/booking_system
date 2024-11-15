@@ -20,6 +20,7 @@ const VerifyEmail = () => {
     if(data.success){
         authCtx.signIn(data.data)
         localStorage.setItem('user', JSON.stringify(data.data))
+        localStorage.setItem('token', JSON.stringify(data.token))
       toast.success('Email verified successfully', { 
         position: "top-right",
         autoClose: 5000,

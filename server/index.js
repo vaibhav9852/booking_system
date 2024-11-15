@@ -26,7 +26,7 @@ const limiter = rateLimit({
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter) 
-app.options('*', cors());  // Allow preflight requests for all routes
+//app.options('*', cors());  // Allow preflight requests for all routes
 
 app.use(cors({
 	origin: 'http://localhost:5173', 

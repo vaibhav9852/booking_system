@@ -98,7 +98,7 @@ useEffect(() => {
                     <div className=' flex-1 overflow-hidden p-2 w-1/5   py-4 px-10  hover:bg-gray-200  rounded-full'> 
                   
                         <div><p>Where</p></div>
-                        <input type='text' placeholder='Search destinations' onChange={ bookingCtx.handleLocation} className=' w-48 sm:w-32  hover:bg-gray-200 border-0 focus:outline-none focus:ring-0 bg-transparent ' />
+                        <input type='text' placeholder='Search destinations' value={bookingCtx.location} onChange={ bookingCtx.handleLocation} className=' w-48 sm:w-32  hover:bg-gray-200 border-0 focus:outline-none focus:ring-0 bg-transparent ' />
                     </div>
                  
                  <div className='  border-x-2 border-gray-200 h-10 '></div>

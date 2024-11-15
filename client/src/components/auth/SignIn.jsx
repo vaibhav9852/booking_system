@@ -8,10 +8,10 @@ const SignIn = () => {
     const authCtx = useContext(AuthContext)
 
     const URL = `http://localhost:8005/v1/user/signin`
-    const navigate = useNavigate()
+    const navigate = useNavigate() 
     const handleChange = (event) => {
         setUser({ ...user, [event.target.type]: event.target.value })
-    }
+    }   
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -28,6 +28,7 @@ const SignIn = () => {
                 if (data.success) {
                     authCtx.signIn(data.data)
                     localStorage.setItem('user', JSON.stringify(data.data))
+                    localStorage.setItem('token',JSON.stringify(data.token))
                     setUser({ email: '', password: '' })
                     toast.success('Successfully logged in', {
                         position: "top-right",

@@ -27,7 +27,11 @@ const [mapLocation,setMapLocation] = useState([20.5937, 78.9629])
  }
 
  const handleLocation = (e)=>{
+   if(e){
     setLocation(e.target.value)
+   }else{
+      setLocation('')
+   }
  }
 
  const findByLocation = (value) => {

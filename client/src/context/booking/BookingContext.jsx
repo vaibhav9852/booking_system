@@ -9,7 +9,7 @@ const BookingContext = createContext({
     paymentId:'',
     totalAmount:'',
     featureFilter:'',
-    mapLocation:[],  
+    mapLocation:[],   
     handleTotalAmount:()=>{},
     handleGuest:()=>{},
     handleDay:()=>{},

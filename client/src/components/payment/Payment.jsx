@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import AuthContext from "../../context/auth/AuthContext";
-import BookingContext from "../../context/booking/bookingContext";
+import BookingContext from "../../context/booking/BookingContext";
+
 
 
 const PaymentPage = () => {
@@ -32,11 +33,13 @@ const PaymentPage = () => {
     })
       .then((res) => res.json()) 
       .then((data) => { 
-        console.log('data',data)
         setClientSecret(data.clientSecret);
         setDpmCheckerLink(data.dpmCheckerLink); // Example if you're passing additional info
         setLoading(false); // Once the data is received, stop the loading state
         bookingCtx.handlePaymentId(data.paymentId) 
+        bookingCtx.handleGuest({adult:0,children:0})
+        bookingCtx.handleDay({day:0,startFormat:new Date(),endFormat:new Date()})
+  
       })
       .catch((err) => {
         console.error("Error fetching payment data:", err);

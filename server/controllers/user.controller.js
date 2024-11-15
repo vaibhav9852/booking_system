@@ -82,6 +82,7 @@ exports.verifyEmail = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
       maxAge: 60 * 60 * 1000, // 1 hour expiration
+      sameSite: 'None',
     });
 
     res.status(200).json({ success: true, data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id }, message: 'Email verified successfully!' });
@@ -116,8 +117,9 @@ exports.loginUser = async (req, res) => {
           const sessionToken = genrateToken({ email: user.email }, JWT_SECRET, { expiresIn: '1h' });
           res.cookie('sessionToken', sessionToken, {
             httpOnly: true,
-            secure:true, // process.env.NODE_ENV === 'production',  // Use HTTPS in production
+            secure:false, // process.env.NODE_ENV === 'production',  // Use HTTPS in production
             maxAge:  60 * 60 * 1000,  // Expires in 1 hour
+            sameSite: 'None',
           });
 
           return res.status(200).send({ success: true, data: { name: user.name, email: user.email, verified: user.verified, role: user.role, userId: user._id } })
@@ -150,7 +152,7 @@ exports.updateUser = async (req, res) => {
 exports.getUsers = async (req, res) => {
   try {
     let users = await User.find()
-    res.status(200).json({ success: false, users })
+    res.status(200).json({ success: true, users })
   } catch (err) {
     res.status(500).json({ success: false, message: 'Internal server error while get users' })
   }

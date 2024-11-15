@@ -1,4 +1,5 @@
 const Booking = require("../models/booking.model")
+const Hotel = require("../models/hotel.model")
 
 
 exports.createBooking = async (req,res) =>{
@@ -8,7 +9,11 @@ exports.createBooking = async (req,res) =>{
     try{
     let booking = await Booking.create({paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})
     console.log('after create booking',booking)
-    booking.available -=  1  
+    let hotel = await Hotel.findById(hotelId)
+    if(hotel && hotel?.available >0){
+      hotel.available =  hotel.available -  1
+      await hotel.save() 
+    }
       res.status(201).json({success:true,message:'Booking successful'})
     }catch(err){
        console.log('booking err',err)

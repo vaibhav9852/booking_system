@@ -59,11 +59,19 @@ exports.addHotel = async (req,res) =>{
 
 exports.getHotels = async (req,res) =>{
     try{
-      let hotels = await Hotel.find();
-    res.status(200).json({success:true,data:hotels})
+
+        let page = parseInt(req.query.page) || 1
+        console.log('page',page)
+        let limit = 6
+        let offset = (page-1) * limit 
+        let hotels = await Hotel.find().skip(offset).limit(limit) 
+        res.status(200).json({success:true,data:hotels})  
+
+    //   let hotels = await Hotel.find();
+    // res.status(200).json({success:true,data:hotels})
     }catch(err){
-        res.status(500).json({success:false,message:`Internal error : ${err}`})
-    }
+        res.status(500).json({success:false,message:`Internal server error`})
+    } 
 }
 
 exports.getHotel = async (req,res) =>{

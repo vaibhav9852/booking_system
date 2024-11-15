@@ -19,7 +19,8 @@ startDate={startDate}
 import React, { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import BookingContext from "../../../context/booking/bookingContext";
+import BookingContext from "../../../context/booking/BookingContext";
+
 
 
  const CheckOut = () => {
@@ -28,7 +29,7 @@ import BookingContext from "../../../context/booking/bookingContext";
     console.log('start date',startDate,bookingCtx.date) 
   const [endDate, setEndDate] = useState(startDate);
   const filterEndDate = (endDate) => startDate < endDate;
-  
+
  //console.log('day ', (endDate - startDate ) / (24 * 60 * 60 * 1000))
 //const bookingCtx = useContext(BookingContext)
 const dateFormat = (date) =>{
@@ -43,6 +44,7 @@ const dateFormat = (date) =>{
  useEffect(()=>{
   let day = Math.ceil((endDate - startDate ) / (24 * 60 * 60 * 1000))
   bookingCtx.handleDay({...bookingCtx.date,end:endDate,day,startFormat:dateFormat(startDate),endFormat:dateFormat(endDate)})
+  
  },[startDate,endDate])
 
 

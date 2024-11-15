@@ -1,6 +1,7 @@
 
 const URL = 'http://localhost:8005/v1'
-import axios from 'axios'
+// import axios from 'axios'
+
 export const deleteUser = async (id) => {
     let response = await fetch(`${URL}/user/${id}`,{
         method:'DELETE',
@@ -15,12 +16,8 @@ export const deleteUser = async (id) => {
 
 export const getUsers = async () =>{
     let response = await fetch(`${URL}/user`,{
-        method:'GET',
+        method: 'GET',
         credentials: 'include',
-        headers:{
-            'Content-Type':'application/json'
-        },
-
     })
     let data = await response.json()
     console.log('data',data) 

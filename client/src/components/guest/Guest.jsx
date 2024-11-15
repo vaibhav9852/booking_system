@@ -1,15 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import BookingContext from "../../context/booking/bookingContext";
+import BookingContext from "../../context/booking/BookingContext";
+
 
 
 
 const Guest = () =>{
 const bookingCtx =  useContext(BookingContext)
 const [adult,setAdult] =  useState(bookingCtx.guest?.adult || 0)
-const [children,setChildren] =  useState(bookingCtx.guest?.children || 0)
+const [children,setChildren] =  useState(bookingCtx.guest?.children || 0) 
 
 console.log('adult , children',adult,children)
-
+ 
     useEffect(()=>{
        bookingCtx.handleGuest({adult,children})
     },[adult,children])

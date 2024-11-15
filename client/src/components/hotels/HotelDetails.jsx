@@ -111,14 +111,14 @@ const HotelDetails = () =>{
         </div>
   </div>
 }
-{
-  hotel && <div className=' float-right w-96 h-max shadow-lg  shadow-white-500/50  mr-24 my-10 py-4 bottom-1 rounded-lg'>
-     <div className='flex justify-start flex-col ml-4'>
+{ 
+  hotel && <div className=' float-right flex w-48 sm:w-96 h-max  shadow-lg  shadow-white-500/50  mr-24 my-10 py-4 bottom-1 rounded-lg'>
+     <div className='flex justify-start sm:justify-center flex-col ml-4'>
          <div className='flex  font-semibold text-xl'>
           <span>&#8377;{hotel.charge}  </span> <p className=' ml-2 text-lg font-normal'>night </p>
          </div>
          <div className='flex justify-start mt-4 flex-col '>
-         <div className='w-80 h-16 border-2 rounded-lg hover:border-black flex justify-around items-center text-xs font-medium'>
+         <div className=' w-44 sm:w-80 h-16 border-2 rounded-lg hover:border-black flex justify-around items-center text-xs font-medium'>
           <div className=' '>
            <div>CHECK-IN</div>
            <div>{bookingCtx?.date?.startFormat}</div>
@@ -129,7 +129,7 @@ const HotelDetails = () =>{
            <div>{bookingCtx?.date?.endFormat}</div>
            </div>
          </div>
-         <div className='w-80 h-16 border-2 rounded-lg hover:border-black   '>
+         <div className='w-44 sm:w-80 h-16 border-2 rounded-lg hover:border-black   '>
          <div className='h-full  ml-6 mt-2'>
           <div className='text-xs font-medium'>GUESTS</div>
           <div className='text-sm font-normal'>{taotaGuest ? taotaGuest : 0} guests</div>
@@ -137,7 +137,7 @@ const HotelDetails = () =>{
          </div>
          </div>
 
-         <div className='flex justify-center items-center mt-4 w-80  bg-rose-500 text-white font-semibold rounded-lg p-4'>
+         <div className='flex justify-center items-center mt-4 w-44 sm:w-80  bg-rose-500 text-white font-semibold rounded-lg p-4'>
           <button onClick={handleReserve}>
            
             Reserve
@@ -146,20 +146,20 @@ const HotelDetails = () =>{
             </button>
          </div>
 
-         <div className='flex justify-center mt-2'>
+         <div className='flex justify-start sm:justify-center mt-2'>
            <p>You won't be charged yet</p>
          </div>
 
-         <div className='w-80 flex justify-between mt-4 text-lg'>
+         <div className=' w-44 sm:w-80 flex justify-between mt-4 text-lg'>
             <div><span>&#8377;{hotel.charge}&#xD7;{(bookingCtx.date?.day>0?bookingCtx.date?.day:1)} nights</span></div>
             <div><span>&#8377;{+hotel.charge*(+bookingCtx.date?.day>0?+bookingCtx.date?.day:1)*(+taotaGuest>0 ? +taotaGuest : 1)}</span></div>
          </div>
-         <div className='w-80 flex justify-between mt-4 text-lg'>
+         <div className='w-44 sm:w-80 flex justify-between mt-4 text-lg'>
             <div><p>Airbnb service fee</p></div>
             <div><span>&#8377;{Math.floor(hotel.charge/7)}</span></div>
          </div>
-         <div className='w-80 my-4 border-y-2'></div>
-         <div className='w-80 flex justify-between mt-4 text-lg font-semibold'>
+         <div className='w-40 sm:w-80 my-4 border-y-2'></div>
+         <div className=' w-44 sm:w-80 flex justify-between mt-4 text-lg font-semibold'>
           <div><p>Total before taxes</p></div>
           <div><span>&#8377;{+hotel.charge*(+bookingCtx.date?.day>0?+bookingCtx.date?.day:1)*(+taotaGuest>0 ? +taotaGuest : 1) + Math.floor(hotel.charge/7)}</span></div>
          </div>

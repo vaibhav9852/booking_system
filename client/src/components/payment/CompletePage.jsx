@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import BookingContext from '../../context/booking/bookingContext';
+import BookingContext from '../../context/booking/BookingContext';
+
 
 const CompletePage = () => {
   const bookingCtx = useContext(BookingContext)
-
+ 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-green-50 py-8">
+    <div className='flex justify-center items-center  h-5/6'>
+    <div className="flex flex-col items-center justify-center    py-8">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-3xl font-bold text-green-600 text-center mb-4">Payment Successful!</h2>
         <p className="text-lg text-gray-600 text-center mb-6">Thank you for your payment. Your booking has been confirmed.</p>
@@ -21,6 +23,7 @@ const CompletePage = () => {
           </Link>
         </div>
       </div>
+    </div>
     </div>
   );
 };

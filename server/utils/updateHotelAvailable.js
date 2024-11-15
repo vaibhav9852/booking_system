@@ -1,4 +1,4 @@
-const Booking = require('../models/booking.model')
+const Booking = require('../models/booking.model.js')
 const Hotel = require('../models/hotel.model.js')
 const moment = require('moment')
 
@@ -10,11 +10,16 @@ exports.updateHotelAvailable = async () =>{
     today = today.split('-').reverse().join('-').replaceAll('-','/')
 
      let bookings = await Booking.find({checkout :{ $eq : today}})
-     let hotel = await Hotel.findById(bookings.hotelId)
-
-     if( hotel.available < 10){
-      hotel.available += 1 
-      await hotel.save() 
-     }
+ 
+     bookings.map(async (booking) => {
+       console.log('booking',booking) 
+        let hotel = await Hotel.findById(booking.hotelId)
+        console.log('hotel',hotel) 
+        if(hotel &&  hotel.available){
+         hotel.available +=   1
+         await hotel.save()  
+        }
+     })
+    
      
 }

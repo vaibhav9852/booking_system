@@ -15,7 +15,7 @@ router.post('/logout',logout)
 
 router.put('/:id',updateUser) 
 
-router.get('/',authenticate, getUsers)  // authenticate 
+router.get('/',authenticate, admin, getUsers)  // authenticate 
 
 router.delete('/:id',deleteUser)  
 

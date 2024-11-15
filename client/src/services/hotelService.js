@@ -1,9 +1,9 @@
 
 const URL = 'http://localhost:8005/v1/hotels'
 // const token = JSON.parse(localStorage.getItem('token'))
-export const getHotels = async ()=>{
+export const getHotels = async (pageNum)=>{
   
-  let response = await fetch(`${URL}`,{
+  let response = await fetch(`${URL}?page=${pageNum}`,{
     method:'GET',
     headers: {
       'Content-Type':'application/json',

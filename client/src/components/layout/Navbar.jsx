@@ -36,7 +36,7 @@ const guestCardRef = useRef(null);
 const guestIconRef = useRef(null);
 
 const location = useLocation();
-const hideOnRoutes = ['/signin', '/signup', '/admin',  '/forgot-password','/profile','profile/edit','/payment'];
+const hideOnRoutes = ['/signin', '/signup', '/admin',  '/forgot-password','/profile','profile/edit','/payment', '/complete'];
 const isResetPasswordRoute = location.pathname?.split('/')[1] ==  'reset-password'; 
 const shouldHideNavbarContent = hideOnRoutes.some(route => location.pathname.startsWith(route)) || isResetPasswordRoute;
 

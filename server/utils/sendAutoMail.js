@@ -14,7 +14,7 @@ exports.sendMailFromHotel = async () =>{
 
 
      try{
-
+       
     let bookings = await Booking.find({ checkin : { $eq: today}}).populate('hotelId userId') 
    
     const emailSubject = 'Your Booking Reminder';

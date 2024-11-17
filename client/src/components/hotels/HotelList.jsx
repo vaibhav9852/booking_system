@@ -10,8 +10,10 @@ import BookingContext from "../../context/booking/BookingContext"
 const HotelList = () =>{
 const [hotels,setHotels] = useState([])
 const [filterHotels,setFilterHotels] = useState([])
+const [hasMore, setHasMore] = useState(true);
 const [loading,setLoading] = useState(false)
 const [page,setPage] = useState(1) 
+
 const bookingCtx = useContext(BookingContext)
 
 const fetchHotels = async (pageNum) =>{
@@ -19,7 +21,12 @@ const fetchHotels = async (pageNum) =>{
     try{
      let hotels = await getHotels(pageNum || 1)
      console.log(' hotels.data',pageNum, hotels.data)
+     if(hotels.data.length == 0){
+      setHasMore(false)
+     }
+   
      setHotels( (prevHotels) => [...prevHotels,...hotels.data])  
+     
     }catch(error){
       toast.error('Something wrong while fetch hotels', {
         position: "top-right",
@@ -31,21 +38,11 @@ const fetchHotels = async (pageNum) =>{
     }
 }
 
-// useEffect(()=>{
-//   fetchHotels()
-// },[])
-
-
 useEffect(()=>{
   fetchHotels(page)
  alert(page)
 },[page])
 
-useEffect(()=>{
-   if(loading){
-        setPage((prevPage) => prevPage + 1)
-   }
-},[loading])
 
 const handleScroll = () => {
   if (
@@ -53,7 +50,9 @@ const handleScroll = () => {
     window.scrollY + window.innerHeight
   ) {
     console.log('scroll',document.body.scrollHeight, window.scrollY,window.innerHeight, window.scrollY + window.innerHeight)
-    setLoading(true);
+    if(!loading && hasMore){
+       setPage((prevPage) => prevPage + 1)
+    }
   }
 };
 
@@ -77,69 +76,74 @@ useEffect(()=>{
   return ()=>{
     window.removeEventListener("scroll", debounceHandleScroll); 
   }
-},[])
+},[loading,hasMore])
 
-// useEffect(()=>{  
-//   if(bookingCtx.locationFilter){
-     
-//   let filterHotel =  hotels.filter( (hotel) => hotel.location?.toLowerCase() == bookingCtx.location?.trim()?.toLowerCase() )                                                             
-//   filterHotel.length && setHotels(filterHotel) 
-//    bookingCtx.findByLocation(false)
-//         // booking
-//   console.log('filter hotel', filterHotel) 
-//   console.log('bookingCtx.locationFilter',bookingCtx.locationFilter , bookingCtx.location)
-//   }else{
-     
+useEffect(()=>{  
+  if(bookingCtx.locationFilter){
+  let filterHotel =  hotels.filter( (hotel) => hotel.location?.toLowerCase() == bookingCtx.location?.trim()?.toLowerCase() )    
+    setFilterHotels(filterHotel) 
+    bookingCtx.handleLocation(false)  
+    bookingCtx.findByLocation('')                                                   
+  }    
+},[bookingCtx.locationFilter])
+
+// useEffect(() => {
+//   let filteredHotels = [...hotels];
+
+//   // Apply location filter
+//   if (bookingCtx.locationFilter && bookingCtx.location.trim()) {
+//     filteredHotels = filteredHotels.filter(
+//       (hotel) =>
+//         hotel.location?.toLowerCase() ===
+//         bookingCtx.location?.trim().toLowerCase()
+//     );
 //   }
-// },[bookingCtx.locationFilter , bookingCtx.location])
+
+//   // Apply feature filter
+//   if (bookingCtx.featureFilter) {
+//     filteredHotels = filteredHotels.filter((hotel) =>
+//       hotel.features?.includes(bookingCtx.featureFilter)
+//     );
+//   }
+
+//   // Update state with filtered hotels
+//   if (filteredHotels.length !== hotels.length) {
+//     setHotels(filteredHotels);
+//   }
+
+//   // Reset the filters in the context after filtering
+//   if (bookingCtx.locationFilter || bookingCtx.featureFilter) {
+//     bookingCtx.findByLocation(false);
+//     bookingCtx.handleLocation(false);
+//   }
+// }, [bookingCtx.locationFilter, bookingCtx.featureFilter, bookingCtx.location]);
 
 
-useEffect(() => {
-  if (bookingCtx.locationFilter) {
-    if (bookingCtx.location) { 
 
-      if(filterHotels.length){
-        fetchHotels(page) 
-      }
-         
-      const filterByLocation = hotels.filter( (hotel) => hotel.location?.toLowerCase() === bookingCtx.location?.trim().toLowerCase() );
 
-       bookingCtx.findByLocation(false)
-       bookingCtx.handleLocation()
-  
-      if (filterByLocation.length > 0) {
-        setHotels(filterByLocation);
-        setFilterHotels(filterByLocation)
-      } else {
-        
-        setHotels([]);
-      }
-    } else {
-      fetchHotels(page);
-    }
-    bookingCtx.findByLocation(false); 
 
-    console.log("Filtered Hotels:",bookingCtx.locationFilter, bookingCtx.location, hotels);
-  }
-}, [bookingCtx.locationFilter, bookingCtx.location ]);  // , bookingCtx.location
+
 
 
 useEffect(()=>{
   let filterHotel = hotels.filter((hotel) => hotel.features?.includes(bookingCtx.featureFilter) )
-  filterHotel.length && setHotels(filterHotel)  
-  console.log('filterHotel',filterHotel) 
-  console.log('bookingCtx.featureFilter',bookingCtx.featureFilter)    
+  filterHotel.length && setFilterHotels(filterHotel)    
 },[bookingCtx.featureFilter]) 
  
   return (
     <>
     <div className="flex justify-center flex-wrap ">
     {
-      hotels  && hotels?.map((hotel,ind) => <HotelCard hotel={hotel} ind={ind} key={hotel._id}/> )  
+      filterHotels.length > 0 && (
+        filterHotels.map((hotel,ind) => <HotelCard hotel={hotel} ind={ind} key={hotel._id}/>)
+      )
     }
-       {
-     (!hotels && loading )  &&  <Loading />
-    } 
+
+    {
+      (filterHotels.length === 0 && hotels.length >0)  && hotels.map((hotel,ind) => <HotelCard hotel={hotel} ind={ind} key={hotel._id}/> )  
+    }
+       
+      {(!filterHotels.length && hotels.length === 0 && loading) && <Loading />}
   
     </div>
     </>

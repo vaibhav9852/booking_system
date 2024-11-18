@@ -38,7 +38,6 @@ const HotelDetails = () =>{
         hideProgressBar: false,
     })}
   }
- console.log('hotel',hotel)
 
   const handleReserve = () =>{
        if(!authCtx.user?.verified && hotel){
@@ -57,7 +56,7 @@ const HotelDetails = () =>{
         setTotalGuest(0)
           navigate('/payment')
        }
-        //  navigate('/payment')
+       
   }
 
   useEffect(()=>{

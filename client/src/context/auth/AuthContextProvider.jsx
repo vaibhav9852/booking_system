@@ -5,7 +5,6 @@ import { json } from "react-router-dom";
 
 const AuthContextProvider = (props) =>{
    const loginUser = JSON.parse(localStorage.getItem('user'))
-   console.log('loginUser',loginUser)
  const [user,setUser] = useState(loginUser)
  const signIn = (user) =>{
    setUser(user)

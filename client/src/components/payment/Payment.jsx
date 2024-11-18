@@ -8,41 +8,44 @@ import { useLocation } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import AuthContext from "../../context/auth/AuthContext";
 import BookingContext from "../../context/booking/BookingContext";
-
+import { API_BASE_URL } from "../../config";
 
 
 const PaymentPage = () => {
-  const [clientSecret, setClientSecret] = useState(""); // To store client secret from the backend
-  const [dpmCheckerLink, setDpmCheckerLink] = useState(""); // Optional: if you have additional links or data
-  const [loading, setLoading] = useState(true); // To show loading state until data is fetched
+  const [clientSecret, setClientSecret] = useState(""); 
+  const [dpmCheckerLink, setDpmCheckerLink] = useState(""); 
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)
-
+  const token = JSON.parse(localStorage.getItem('token'))
   useEffect(() => {
-    // Fetch the payment details (clientSecret) from the backend when the component mounts
+  
     let price = +bookingCtx.hotel?.charge * + bookingCtx.date?.day * (+bookingCtx.guest?.adult + +bookingCtx.guest?.children) + Math.floor(+bookingCtx.hotel?.charge / 7)
     bookingCtx.handleTotalAmount(price)
-    console.log('price..',price,authCtx) 
     if(bookingCtx.date?.day && (bookingCtx.guest?.adult || bookingCtx.guest?.children) ){
-    fetch("http://localhost:8005/v1/payment", {
+      // http://localhost:8005/v1/payment
+    fetch(`${API_BASE_URL}/payment`, { 
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,
+            
+                   'authorization' : `Bearer ${token}`
+      },
       body: JSON.stringify({ hotelId: bookingCtx.hotel?._id || 1, userId: authCtx.user?.userId || 2, totalAmount:price || 200 }), // Example data
     })
       .then((res) => res.json()) 
       .then((data) => { 
         setClientSecret(data.clientSecret);
-        setDpmCheckerLink(data.dpmCheckerLink); // Example if you're passing additional info
-        setLoading(false); // Once the data is received, stop the loading state
+        setDpmCheckerLink(data.dpmCheckerLink);
+        setLoading(false); 
         bookingCtx.handlePaymentId(data.paymentId) 
         bookingCtx.handleGuest({adult:0,children:0})
         bookingCtx.handleDay({day:0,startFormat:new Date(),endFormat:new Date()})
   
       })
       .catch((err) => {
-        console.error("Error fetching payment data:", err);
+        
         setLoading(false);
       });
     }else{
@@ -54,15 +57,15 @@ const PaymentPage = () => {
     setLoading(false)
     }
  
-  }, []); // Empty dependency array ensures this runs once after mount
+  }, []); 
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading state until the clientSecret is fetched
+    return <div className="flex justify-center items-center">Loading...</div>; 
   }
 
   return (
     <div>
-      {/* This can be conditionally rendered once the clientSecret is available */}
+  
       {clientSecret && (
         <CheckoutForm dpmCheckerLink={dpmCheckerLink} clientSecret={clientSecret} />
         

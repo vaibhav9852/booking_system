@@ -31,7 +31,7 @@ const hotelSchema =  new Schema({
         },
 
         image:{
-            type:[{type:String}]  // string
+            type:[{type:String}]  
         },
         features:{
             type:[{type:String}]

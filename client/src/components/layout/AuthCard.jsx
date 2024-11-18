@@ -8,17 +8,12 @@ const AuthCard = (props) =>{
 const authCtx = useContext(AuthContext)
  const cardRef = useRef(null) 
  const navigate = useNavigate()
+
   const handleSignOut = async () =>{
 
    props.updateFun(false)
    authCtx.signOut()
    navigate('/signin')
-    //  let response = await signOut()
-    //  console.log('response',response)
-    //  if(response.success){
-    //         authCtx.signOut()
-    //         navigate('/signin')
-    //  }
   }
     return(
         <>
@@ -28,7 +23,6 @@ const authCtx = useContext(AuthContext)
         {!authCtx.user?.verified &&       <div className="py-2   rounded-md hover:bg-gray-200 transition duration-300"><Link to='/signup' onClick={() => props.updateFun(false)}>Sign up</Link></div> }
           {!authCtx.user?.verified &&     <div className="py-2 rounded-md hover:bg-gray-200 transition duration-300 "><Link to='/signin' onClick={() => props.updateFun(false)}>Log in</Link></div> }
           {authCtx.user?.verified &&    <div className="py-2 rounded-md hover:bg-gray-200 transition duration-300"><Link to='/profile' onClick={() => props.updateFun(false)}>Profile</Link></div> }
-         {/* {authCtx.user?.verified && <div className="py-2 rounded-md hover:bg-gray-200 transition duration-300" onClick={() => handleSignOut()}><Link to='/profile' onClick={() => props.updateFun(false)}>Log out</Link></div> } */}
          {authCtx.user?.verified && <div className="py-2 rounded-md hover:bg-gray-200 transition duration-300" onClick={() => handleSignOut()}>Log out</div> }
          { (authCtx.user?.verified && authCtx.user?.role == 'admin')  && <div className="py-2 rounded-md hover:bg-gray-200 transition duration-300"><Link to='/admin' onClick={() => props.updateFun(false)}>Admin</Link></div> }
 

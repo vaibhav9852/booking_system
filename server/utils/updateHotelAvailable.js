@@ -12,14 +12,10 @@ exports.updateHotelAvailable = async () =>{
      let bookings = await Booking.find({checkout :{ $eq : today}})
  
      bookings.map(async (booking) => {
-       console.log('booking',booking) 
         let hotel = await Hotel.findById(booking.hotelId)
-        console.log('hotel',hotel) 
         if(hotel &&  hotel.available){
          hotel.available +=   1
          await hotel.save()  
         }
-     })
-    
-     
+     }) 
 }

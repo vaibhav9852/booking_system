@@ -1,29 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/auth/AuthContext";
-import { editProfile } from "../../services/authService";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 import { toast } from "react-toastify";
+import AdminContext from "../../../context/admin/adminContext";
+import { editProfile } from "../../../services/authService";
 const URL =  `${API_BASE_URL}/user/signup` //http://localhost:8005/v1/user/signup`
 
-const ProfileEdit = ({userId}) =>{
-    const authCtx = useContext(AuthContext)
- const [user,setUser] = useState({name:authCtx.user?.name,email:authCtx.user?.email,password:''})
+const EditUser = () =>{
+ const [user,setUser] = useState({name:'',email:'',password:''})
  const [error,setError] = useState(null)
-  
+editProfile
  const navigate = useNavigate()
- if(userId){
-    setUser({name:'',email:'',password:''})
- }
+ const adminCtx = useContext(AdminContext)
     const handleSubmit = async (event) =>{
         event.preventDefault();
-
+          console.log('adminCtx.editUserDetails',adminCtx.editUserDetails)
          try{
-            if(userId){
-                let data = await editProfile(userId,user)
-            }else{
-          let data = await editProfile(authCtx.user?.userId,user)
-            }
+          let data = await editProfile(adminCtx.editUserDetails?._id,user)
           authCtx.signIn(data.user)
           toast.success('Profile updated', {
             position: "top-right",
@@ -47,6 +40,11 @@ const ProfileEdit = ({userId}) =>{
         setUser({...user,[event.target.name]:event.target.value})
        
     }
+
+    useEffect(()=>{
+     const {name,email,password,role} = adminCtx.editUserDetails
+      setUser({name,email,password})
+    },[])
 
     return(
         <>
@@ -76,4 +74,4 @@ const ProfileEdit = ({userId}) =>{
     )
 }
 
-export default ProfileEdit;
+export default EditUser;

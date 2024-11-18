@@ -5,7 +5,8 @@ import { Data } from "./Data";
 import { BarChart } from "./BarChart";
 import AuthContext from "../../../context/auth/AuthContext";
 import { toast } from "react-toastify";
-// import "./styles.css";
+import {API_BASE_URL} from "../../../config"
+
 
 Chart.register(CategoryScale); 
 
@@ -30,19 +31,19 @@ export default function ChartPage() {
   });
   const authCtx = useContext(AuthContext)
 
-  let URL = `http://localhost:8005/v1/bookings`
-  
+  //let URL = `http://localhost:8005/v1` 
+  let token = JSON.parse(localStorage.getItem('token'))
   const  fetchBooking = async() =>{
    
     try{
-      let response = await fetch(URL,{
+      let response = await fetch(`${API_BASE_URL}/bookings`,{
           method:'GET',
           headers:{
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+               'authorization' : `Bearer ${token}`
           }
       })
       let bookings = await response.json()
-     console.log('data chart ..',bookings) 
      if(bookings.data.length){
       setChartData({
         labels:  bookings.data.map((data) => data.createdAt?.split('T')[0]

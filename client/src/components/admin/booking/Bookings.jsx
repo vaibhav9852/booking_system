@@ -4,24 +4,16 @@ import { getBookins } from "../../../services/adminService"
 
 const Bookings = () =>{
 
-    const [bookings,setBookigs] = useState()
-
-    const handleEdit = async () =>{
-
+    const [bookings,setBookigs] = useState([])
+    
+    const fetchBookings = async () =>{
+        let {data} = await getBookins()
+    
+        setBookigs(data)
+    
     }
-
-    const handleDelete = async () =>{
-
-    }
-  
   
      useEffect(()=>{
-           const fetchBookings = async () =>{
-               let {data} = await getBookins()
-               setBookigs(data)
-               console.log('booking data',data)
-           }
-
            fetchBookings()
      },[])
     return(
@@ -42,14 +34,14 @@ const Bookings = () =>{
                     </tr>
                 </thead>
                 <tbody>
-           { bookings && bookings.map((booking) =>(
+           { bookings.length > 0  && bookings.map((booking) =>(
             <tr className=" my-10 mx-10 " key={booking._id}>
-                  <td className=" my-2 text-base font-bold py-2 ">{booking.hotelId.name}</td>
-               <td className=" my-2 text-base font-medium py-2  text-center">{booking.adult}</td>
-               <td className="  my-2 text-base font-medium py-2 text-center">{booking.children}</td>
-               <td className="  my-2 text-base font-medium py-2 text-center">{booking.checkin}</td>
-               <td className="  my-2 text-base font-medium py-2 text-center">{booking.checkout}</td>
-               <td className="  my-2 text-base font-medium py-2 text-center">{booking.totalAmount}</td>
+                  <td className=" my-2 text-base font-bold py-2 ">{booking.hotelId?.name}</td>
+               <td className=" my-2 text-base font-medium py-2  text-center">{booking?.adult}</td>
+               <td className="  my-2 text-base font-medium py-2 text-center">{booking?.children}</td>
+               <td className="  my-2 text-base font-medium py-2 text-center">{booking?.checkin}</td>
+               <td className="  my-2 text-base font-medium py-2 text-center">{booking?.checkout}</td>
+               <td className="  my-2 text-base font-medium py-2 text-center">{booking?.totalAmount}</td>
                
                </tr>
 ))  

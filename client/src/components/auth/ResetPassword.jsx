@@ -12,11 +12,8 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('token,password',token,password)
     try {
-      //const res = await axios.put(`/api/auth/reset-password/${token}`, { password });
       const res = await  resetPassword(token,password)
-    console.log('reset res',res)
     if(res.success){
       toast.success('Your password has been reset successfully!', {
         position: "top-right",
@@ -33,7 +30,6 @@ const ResetPassword = () => {
     });
     }
     } catch (error) {
-     console.log('err',error) 
       toast.error(' Something went wrong while resetting your password. Please try again.', {
         position: "top-right",
         autoClose: 5000,

@@ -1,4 +1,4 @@
-//  import { useState } from 'react'
+
 import {BrowserRouter, Routes , Route, Navigate, useLocation} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';  
 import 'react-toastify/dist/ReactToastify.css'; 
@@ -18,7 +18,7 @@ import Complete from './pages/Complete';
 import PaymentPage from './pages/PaymentPage';
 
 import Admin from './components/admin/Admin';
-import BookingContext from './context/booking/bookingContext';
+import BookingContext from './context/booking/BookingContext.jsx';
 import AdminContextProvider from './context/admin/AdminContextProvider';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';

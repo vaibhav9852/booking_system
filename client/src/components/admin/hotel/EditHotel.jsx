@@ -28,9 +28,7 @@ const EditHotel = () => {
 
     const handleClick = async (event) => {
       event.preventDefault();
-        console.log('hotel', hotel)
-        console.log(' hotel.photos', hotel.photos)
-       console.log('hotel.name && hotel.location && hotel.charge',hotel.name , hotel.location , hotel.charge)
+       
         if (hotel.name && hotel.location && hotel.charge) {  
             let formData = new FormData()
             hotel.photos?.map((photo) => formData.append('photos', photo))
@@ -70,8 +68,6 @@ const EditHotel = () => {
     }
       
      useEffect(() =>{
-         console.log('ctx edit',adminCtx.editHotelDetails)
-         console.log('ctx edit id',adminCtx.editHotelDetails._id)
          let { name,location, description, charge, available, photos } = adminCtx.editHotelDetails
          setHotel({name,location,description,charge,available,photos })
      },[])
@@ -86,7 +82,7 @@ const EditHotel = () => {
          }
      
       }
-          console.log('fat',feature)
+       
 
     return (
         <> 

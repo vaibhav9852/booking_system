@@ -33,7 +33,7 @@ const Hotels = () =>{
             hideProgressBar: false,
         });
       }
-      console.log('resp after delete hotel',response)
+ 
     }
 
     useEffect(() =>{

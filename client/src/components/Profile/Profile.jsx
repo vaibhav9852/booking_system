@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 const Profile = () =>{
 
     const authCtx = useContext(AuthContext)
-    console.log('autCtx',authCtx)
     return(
         <>
       

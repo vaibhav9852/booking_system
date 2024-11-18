@@ -22,8 +22,7 @@ const AddHotel = () => {
   
     const handleClick = async (event) => {
       event.preventDefault();
-        console.log('hotel', hotel)
-        console.log('features',feature)
+      
         if (hotel.name && hotel.location && hotel.charge) {
             let formData = new FormData()
             hotel.photos?.map((photo) => formData.append('photos', photo))
@@ -34,9 +33,9 @@ const AddHotel = () => {
             formData.append('available', hotel.available)
             formData.append('features',[...feature])
             formData.append('coordinates',bookingCtx.mapLocation) 
-            console.log('form data', formData)
+           
             let data = await addHotel(formData)
-            console.log('data after add hotel', data) 
+          
             if(data.success){
                 toast.success('Hotel added', {
                     position: "top-right",
@@ -64,11 +63,7 @@ const AddHotel = () => {
     }
 
     const handleCheckChange = (event) =>{
-      
-      //console.log('onClick',event) 
-      const { value, checked } = event.target;
-      console.log('onClick',value, checked) 
-        
+      const { value, checked } = event.target;    
        if(checked){
           setFeature([...feature,value]) 
        }else{

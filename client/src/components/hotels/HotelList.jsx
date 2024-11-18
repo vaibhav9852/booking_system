@@ -20,7 +20,6 @@ const fetchHotels = async (pageNum) =>{
   setLoading(true)
     try{
      let hotels = await getHotels(pageNum || 1)
-     console.log(' hotels.data',pageNum, hotels.data)
      if(hotels.data.length == 0){
       setHasMore(false)
      }
@@ -40,7 +39,6 @@ const fetchHotels = async (pageNum) =>{
 
 useEffect(()=>{
   fetchHotels(page)
- alert(page)
 },[page])
 
 
@@ -49,7 +47,6 @@ const handleScroll = () => {
     document.body.scrollHeight - 300 <
     window.scrollY + window.innerHeight
   ) {
-    console.log('scroll',document.body.scrollHeight, window.scrollY,window.innerHeight, window.scrollY + window.innerHeight)
     if(!loading && hasMore){
        setPage((prevPage) => prevPage + 1)
     }
@@ -86,43 +83,6 @@ useEffect(()=>{
     bookingCtx.findByLocation('')                                                   
   }    
 },[bookingCtx.locationFilter])
-
-// useEffect(() => {
-//   let filteredHotels = [...hotels];
-
-//   // Apply location filter
-//   if (bookingCtx.locationFilter && bookingCtx.location.trim()) {
-//     filteredHotels = filteredHotels.filter(
-//       (hotel) =>
-//         hotel.location?.toLowerCase() ===
-//         bookingCtx.location?.trim().toLowerCase()
-//     );
-//   }
-
-//   // Apply feature filter
-//   if (bookingCtx.featureFilter) {
-//     filteredHotels = filteredHotels.filter((hotel) =>
-//       hotel.features?.includes(bookingCtx.featureFilter)
-//     );
-//   }
-
-//   // Update state with filtered hotels
-//   if (filteredHotels.length !== hotels.length) {
-//     setHotels(filteredHotels);
-//   }
-
-//   // Reset the filters in the context after filtering
-//   if (bookingCtx.locationFilter || bookingCtx.featureFilter) {
-//     bookingCtx.findByLocation(false);
-//     bookingCtx.handleLocation(false);
-//   }
-// }, [bookingCtx.locationFilter, bookingCtx.featureFilter, bookingCtx.location]);
-
-
-
-
-
-
 
 
 useEffect(()=>{

@@ -26,17 +26,14 @@ import BookingContext from "../../../context/booking/BookingContext";
  const CheckOut = () => {
     let bookingCtx =  useContext(BookingContext)
     let startDate = bookingCtx.date?.start  
-    console.log('start date',startDate,bookingCtx.date) 
   const [endDate, setEndDate] = useState(startDate);
   const filterEndDate = (endDate) => startDate < endDate;
 
- //console.log('day ', (endDate - startDate ) / (24 * 60 * 60 * 1000))
-//const bookingCtx = useContext(BookingContext)
 const dateFormat = (date) =>{
      
     if (!date) return '';
     const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
@@ -47,11 +44,6 @@ const dateFormat = (date) =>{
   
  },[startDate,endDate])
 
-
-//   let handleStartDateChange = (date) =>{
-//      setStartDate(date)
-//      setEndDate(date) 
-//  }
 
   return (
     <div> 
@@ -71,9 +63,5 @@ const dateFormat = (date) =>{
 export default CheckOut;
 
 
-// completed 
-
-// 86400000  -> date / (24 * 60 * 60 * 1000)  => 1 day  
-
-//     
+   
 

@@ -9,9 +9,9 @@ const MapClickHandler = ({ setLocation, setMarkerVisible}) => {
   useMapEvents({
     click(event) { 
       const { lat, lng } = event.latlng;
-      setLocation([lat, lng]); // Update the location
+      setLocation([lat, lng]); 
       bookingCtx.handleMapLocation([lat, lng]) 
-      setMarkerVisible(true); // Show the marker after selecting the location
+      setMarkerVisible(true); 
       
     }
   }); 

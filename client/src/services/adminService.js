@@ -1,13 +1,16 @@
+import {API_BASE_URL} from ".././config"
 const token = JSON.parse( localStorage.getItem('token'))
-console.log('token in admin',token) 
-const URL = 'http://localhost:8005/v1'
-// import axios from 'axios'
+const URL = API_BASE_URL 
+
+
+
 
 export const deleteUser = async (id) => {
     let response = await fetch(`${URL}/user/${id}`,{
         method:'DELETE',
         headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+             'authorization' : `Bearer ${token}`
         }
     })
     let data = await response.json()
@@ -16,7 +19,6 @@ export const deleteUser = async (id) => {
 
 
 export const getUsers = async () =>{
-    console.log('token...',token)
     let response = await fetch(`${URL}/user`,{
         method: 'GET',
         headers : {
@@ -25,9 +27,8 @@ export const getUsers = async () =>{
         }
     })
     let data = await response.json()
-    console.log('data',data) 
    return data ? data : ''
-  //  credentials: 'include',
+
    
 }
 
@@ -36,9 +37,9 @@ export const addHotel = async (formData) =>{
    let response = await fetch(`${URL}/hotels`,{
     method:'POST',
     body : formData,
-    // headers : {
-    //     'Content-Type' : 'multipart/form-data'
-    // }
+    headers:{
+         'authorization' : `Bearer ${token}`
+    }
    })
    let data = await response.json()
 
@@ -46,10 +47,11 @@ export const addHotel = async (formData) =>{
 }
 
 export const getHotels = async () =>{
-    let response = await fetch(`${URL}/hotels`,{
+    let response = await fetch(`${URL}/hotels/all`,{
         method:'GET',
         headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+             'authorization' : `Bearer ${token}`
         }
     })
 
@@ -61,7 +63,10 @@ export const editHotel = async (id,formData) =>{
 
     let response = await fetch(`${URL}/hotels/${id}`,{
         method:'PUT',
-        body: formData
+        body: formData,
+        headers:{
+             'authorization' : `Bearer ${token}`
+        }
     })
     let data = await response.json()
     return data ? data : '' 
@@ -71,7 +76,8 @@ export const deleteHotel = async (id) =>{
     let response = await fetch(`${URL}/hotels/${id}`,{
         method : 'DELETE',
         headers : {
-            'Content-Type' : 'application/json'
+            'Content-Type' : 'application/json',
+             'authorization' : `Bearer ${token}`
         }
     })
     let data = await response.json()
@@ -80,7 +86,13 @@ export const deleteHotel = async (id) =>{
 }
 
 export const getBookins = async () =>{
-  let response = await fetch(`${URL}/bookings`)
+  let response = await fetch(`${URL}/bookings`,{
+    method:'GET',
+    headers:{
+        'Content-Type':'application/json',
+         'authorization' : `Bearer ${token}`
+    }
+  })
   let data = await response.json()
 
   return data ? data : ''

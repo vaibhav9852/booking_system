@@ -1,4 +1,5 @@
-const URL = 'http://localhost:8005/v1'
+import {API_BASE_URL} from ".././config"
+const URL = API_BASE_URL // 'http://localhost:8005/v1'
 const token = JSON.parse(localStorage.getItem('token')) || null;
 
 export const editProfile = async(id,data) => {

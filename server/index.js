@@ -24,12 +24,11 @@ const limiter = rateLimit({
 
 })
 
-// Apply the rate limiting middleware to all requests.
+
 app.use(limiter) 
-//app.options('*', cors());  // Allow preflight requests for all routes
 
 app.use(cors({
-	origin: 'http://localhost:5173', 
+	origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  
     credentials: true,
 }))
@@ -46,21 +45,16 @@ app.use('/v1/auth',authRoute)
  connectToDB();
 
 
-//  cron.schedule('0 1 * * *', () => {  // 0 1 * * * 
-// 	sendMailFromHotel()  // Running a job at 01:00 at America/Sao_Paulo timezone
-//      updateHotelAvailable() // 
-//   }, {  
-// 	scheduled: true,
-// 	timezone: "America/Sao_Paulo" 
-//   }); 
+ cron.schedule('0 21 * * *', () => {  
+	//sendMailFromHotel() 
+ updateHotelAvailable() 
+  }, {  
+	scheduled: true,
+	timezone: "America/Sao_Paulo" 
+  });  
+
+app.listen(PORT)
 
 
-
-app.listen(PORT,()=>{
-    console.log(`server started at port ${PORT}`)
-})
-
-// make responsive hotel and hotel details page 
-// 
 
 

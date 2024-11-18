@@ -2,12 +2,13 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import AuthContext from "../../context/auth/AuthContext";
+import {API_BASE_URL} from "../.././config"
 
 const SignIn = () => {
     const [user, setUser] = useState({ email: '', password: '' })
     const authCtx = useContext(AuthContext)
 
-    const URL = `http://localhost:8005/v1/user/signin`
+    //const URL = `http://localhost:8005/v1/user/signin`
     const navigate = useNavigate() 
     const handleChange = (event) => {
         setUser({ ...user, [event.target.type]: event.target.value })
@@ -15,16 +16,14 @@ const SignIn = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log('user...',user)
         try {
             if (user.email.trim().length && user.password.trim().length) {
-                const response = await fetch(`${URL}`, {
+                const response = await fetch(`${API_BASE_URL}/user/signin`, {
                     method: 'POST',
                     body: JSON.stringify(user),
                     headers: { 'Content-Type': 'application/json' }
                 })
                 const data = await response.json()
-                console.log('data',data)
                 if (data.success) {
                     authCtx.signIn(data.data)
                     localStorage.setItem('user', JSON.stringify(data.data))

@@ -11,13 +11,12 @@ router.post('/verify-email/:token',verifyEmail)
 
 router.post('/signin',loginUser)
 
-router.post('/logout',logout) 
 
-router.put('/:id',updateUser) 
+router.put('/:id',authenticate,updateUser) 
 
-router.get('/',authenticate, admin, getUsers)  // authenticate 
+router.get('/',authenticate,admin, getUsers)  
 
-router.delete('/:id',deleteUser)  
+router.delete('/:id',authenticate,admin,deleteUser)  
 
 module.exports = router  
 

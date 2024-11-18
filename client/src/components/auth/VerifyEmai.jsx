@@ -1,4 +1,4 @@
-// verify-email
+
 
 
 import React, { useContext, useState } from 'react';
@@ -15,8 +15,6 @@ const VerifyEmail = () => {
     e.preventDefault();
     try {
     const data = await  verifyEmail(token)
-    console.log('verify email',data)
-    console.log('verify email2',data.data)
     if(data.success){
         authCtx.signIn(data.data)
         localStorage.setItem('user', JSON.stringify(data.data))

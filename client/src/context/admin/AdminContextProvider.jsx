@@ -10,6 +10,8 @@ const AdminContextProvider = ({children}) =>{
   const  [showAddHotel, setShowAddHotel] = useState(false)
   const [editHotel,setEditHotel] = useState(false) 
   const [editHotelDetails,setEditHotelDetails] = useState(false)
+  const [editUser,setEditUser] = useState(false)
+  const [editUserDetails,setEditUserDetails] = useState()
  
   const handleShowUser = () => {
        setShowUser(!showUser)
@@ -64,13 +66,21 @@ const AdminContextProvider = ({children}) =>{
     setShowAddHotel(false)
     setEditHotelDetails(value)
     setEditHotel(!editHotel)
-  
-
   }
 
+  const handleEditUser = (value) =>{
+    setShowUser(false)
+    setShowBooking(false)
+     setShowHotel(false)
+    setShowVisual(false)
+    setShowAddHotel(false)
+    setEditHotel(false)
+    setEditHotelDetails(value)
+    setEditUser(!editUser)
+  }
     return(
         <>
-        <AdminContext.Provider value={{showUser,showHotel,showBooking,showVisual,showAddHotel,editHotel,editHotelDetails,handleEditHotel,handleShowAddHotel,handleShowUser, handleShowHotel, handleShowBooking, handleShowVisual}}>                                 
+        <AdminContext.Provider value={{showUser,showHotel,showBooking,showVisual,showAddHotel,editHotel,editHotelDetails,editUser,editUserDetails,handleEditUser,handleEditHotel,handleShowAddHotel,handleShowUser, handleShowHotel, handleShowBooking, handleShowVisual}}>                                 
         {children} 
       </AdminContext.Provider> 
         </>

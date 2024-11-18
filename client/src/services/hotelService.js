@@ -1,9 +1,9 @@
-
-const URL = 'http://localhost:8005/v1/hotels'
+import {API_BASE_URL} from ".././config"
+const URL = `${API_BASE_URL}` // 'http://localhost:8005/v1/hotels'
 // const token = JSON.parse(localStorage.getItem('token'))
 export const getHotels = async (pageNum)=>{
   
-  let response = await fetch(`${URL}?page=${pageNum}`,{
+  let response = await fetch(`${URL}/hotels?page=${pageNum}`,{
     method:'GET',
     headers: {
       'Content-Type':'application/json',
@@ -14,8 +14,8 @@ export const getHotels = async (pageNum)=>{
 }
 
 export const getHotel = async (id) =>{
-  console.log('hit id',id)
-    let response = await fetch(`${URL}/${id}`,{
+
+    let response = await fetch(`${URL}/hotels/${id}`,{
       method:'GET',
       headers: {
         'Content-Type':'application/json',
@@ -25,5 +25,5 @@ export const getHotel = async (id) =>{
     return  hotel;
 }
 
-//     'authorization':`Bearer ${token}`
+
 

@@ -2,7 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/auth/AuthContext";
-const URL = `http://localhost:8005/v1/user/signup`
+import {API_BASE_URL} from "../../config"
+const URL = API_BASE_URL // `http://localhost:8005/v1/user/signup`
 
 const SignUp = () =>{
     
@@ -35,7 +36,7 @@ const SignUp = () =>{
             });
          }else{
          try{
-        const response = await fetch(`${URL}`,{
+        const response = await fetch(`${URL}/user/signup`,{
             method:'POST',
             body: JSON.stringify(user),
             headers: {'Content-Type':'application/json'}

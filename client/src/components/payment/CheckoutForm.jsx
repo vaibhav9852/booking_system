@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
-import BookingContext from '../../context/booking/bookingContext';
+import BookingContext from '../../context/booking/BookingContext.jsx';
 import { createBooking } from '../../services/bookingService';
 
 
@@ -20,7 +20,7 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const bookingCtx = useContext(BookingContext)
 
   const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?.userId,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}     
-  console.log('bboking data',data)     
+  
   // paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})                                                                                                                 
 
 
@@ -54,8 +54,7 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
         // Payment was successful, redirect to the "complete" page
     
         const booking = await createBooking(data)
-        console.log('after create booking',booking) 
-        console.log('Payment successful:', paymentIntent);
+    
         navigate('/complete');
       }
     } catch (error) {

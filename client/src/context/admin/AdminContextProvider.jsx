@@ -18,6 +18,7 @@ const AdminContextProvider = ({children}) =>{
        setShowBooking(false)
        setShowHotel(false)
        setShowVisual(false)
+       setEditUser(false)
        setShowAddHotel(false)
        setEditHotel(false)
   }
@@ -25,6 +26,7 @@ const AdminContextProvider = ({children}) =>{
   const   handleShowHotel = () => {
     setShowUser(false)
     setShowBooking(false)
+    setEditUser(false)
     setShowHotel(!showHotel)
     setShowVisual(false)
     setShowAddHotel(false)
@@ -36,6 +38,7 @@ const AdminContextProvider = ({children}) =>{
     setShowBooking(!showBooking)
     setShowHotel(false)
     setShowVisual(false)
+    setEditUser(false)
     setShowAddHotel(false)
     setEditHotel(false)
   }
@@ -44,6 +47,7 @@ const AdminContextProvider = ({children}) =>{
     setShowUser(false)
     setShowBooking(false)
     setShowHotel(false)
+    setEditUser(false)
     setShowVisual(!showVisual)
     setShowAddHotel(false)
     setEditHotel(false)
@@ -54,6 +58,7 @@ const AdminContextProvider = ({children}) =>{
     setShowBooking(false)
     setShowHotel(false)
     setShowVisual(false)
+    setEditUser(false)
     setShowAddHotel(!showAddHotel)
     setEditHotel(false)
   }
@@ -64,6 +69,7 @@ const AdminContextProvider = ({children}) =>{
      setShowHotel(false)
     setShowVisual(false)
     setShowAddHotel(false)
+    setEditUser(false)
     setEditHotelDetails(value)
     setEditHotel(!editHotel)
   }
@@ -75,7 +81,7 @@ const AdminContextProvider = ({children}) =>{
     setShowVisual(false)
     setShowAddHotel(false)
     setEditHotel(false)
-    setEditHotelDetails(value)
+   setEditUserDetails(value)
     setEditUser(!editUser)
   }
     return(

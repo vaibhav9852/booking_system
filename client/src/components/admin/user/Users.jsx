@@ -13,7 +13,6 @@ const Users = () =>{
 
     const fetchUser = async () =>{
        let data = await getUsers()
-       console.log('data user',data.users)
        setUsers(data.users)
     }
     useEffect(()=>{
@@ -43,6 +42,7 @@ const Users = () =>{
     const  handleEdit = async (e,user) =>{
       e.preventDefault();
      adminCtx.handleEditUser(user)
+     
 }
 
     return(

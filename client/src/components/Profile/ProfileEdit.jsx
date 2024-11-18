@@ -6,24 +6,17 @@ import { API_BASE_URL } from "../../config";
 import { toast } from "react-toastify";
 const URL =  `${API_BASE_URL}/user/signup` //http://localhost:8005/v1/user/signup`
 
-const ProfileEdit = ({userId}) =>{
+const ProfileEdit = () =>{
     const authCtx = useContext(AuthContext)
  const [user,setUser] = useState({name:authCtx.user?.name,email:authCtx.user?.email,password:''})
  const [error,setError] = useState(null)
-  
+
  const navigate = useNavigate()
- if(userId){
-    setUser({name:'',email:'',password:''})
- }
     const handleSubmit = async (event) =>{
         event.preventDefault();
-
+       
          try{
-            if(userId){
-                let data = await editProfile(userId,user)
-            }else{
           let data = await editProfile(authCtx.user?.userId,user)
-            }
           authCtx.signIn(data.user)
           toast.success('Profile updated', {
             position: "top-right",

@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BookingContext from '../../context/booking/BookingContext';
 
 
 const CompletePage = () => {
   const bookingCtx = useContext(BookingContext)
+
+  useEffect(()=>{
+        bookingCtx.handleGuest({adult:0,children:0})
+        bookingCtx.handleDay({day:0,startFormat:new Date(),endFormat:new Date()})
+  },[])
  
   return (
     <div className='flex justify-center items-center  h-5/6'>

@@ -20,8 +20,9 @@ const PaymentPage = () => {
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)
   const token = JSON.parse(localStorage.getItem('token'))
+  console.log('bookingCtx in payment',bookingCtx) 
   useEffect(() => {
-  
+
     let price = +bookingCtx.hotel?.charge * + bookingCtx.date?.day * (+bookingCtx.guest?.adult + +bookingCtx.guest?.children) + Math.floor(+bookingCtx.hotel?.charge / 7)
     bookingCtx.handleTotalAmount(price)
     if(bookingCtx.date?.day && (bookingCtx.guest?.adult || bookingCtx.guest?.children) ){
@@ -40,8 +41,8 @@ const PaymentPage = () => {
         setDpmCheckerLink(data.dpmCheckerLink);
         setLoading(false); 
         bookingCtx.handlePaymentId(data.paymentId) 
-        bookingCtx.handleGuest({adult:0,children:0})
-        bookingCtx.handleDay({day:0,startFormat:new Date(),endFormat:new Date()})
+        // bookingCtx.handleGuest({adult:0,children:0})
+        // bookingCtx.handleDay({day:0,startFormat:new Date(),endFormat:new Date()})
   
       })
       .catch((err) => {

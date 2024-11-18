@@ -34,7 +34,7 @@ const Admin = () =>{
             { adminCtx.showBooking &&  <Bookings/>}
             { adminCtx.showAddHotel && <AddHotel />}
             { adminCtx.editHotel && <EditHotel />}
-            {/* { adminCtx.editUser &&   <EditUser /> } */}
+            { adminCtx.editUser &&   <EditUser /> }
         </div> 
     
         </>

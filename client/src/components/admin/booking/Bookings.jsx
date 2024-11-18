@@ -8,7 +8,7 @@ const Bookings = () =>{
     
     const fetchBookings = async () =>{
         let {data} = await getBookins()
-    
+       console.log('bookings data',data)
         setBookigs(data)
     
     }
@@ -34,7 +34,7 @@ const Bookings = () =>{
                     </tr>
                 </thead>
                 <tbody>
-           { bookings.length > 0  && bookings.map((booking) =>(
+           { bookings?.length > 0  && bookings.map((booking) =>(
             <tr className=" my-10 mx-10 " key={booking._id}>
                   <td className=" my-2 text-base font-bold py-2 ">{booking.hotelId?.name}</td>
                <td className=" my-2 text-base font-medium py-2  text-center">{booking?.adult}</td>

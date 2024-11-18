@@ -4,8 +4,9 @@ import React, { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/auth/AuthContext';
-import BookingContext from '../../context/booking/BookingContext.jsx';
+
 import { createBooking } from '../../services/bookingService';
+import BookingContext from '../../context/booking/BookingContext';
 
 
 const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
@@ -14,13 +15,15 @@ const CheckoutForm = ({ clientSecret, dpmCheckerLink }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-   
+ 
   // Handle the form submission
   const authCtx = useContext(AuthContext)
   const bookingCtx = useContext(BookingContext)
 
-  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?.userId,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}     
-  
+  const data = {paymentId:bookingCtx.paymentId,userId:authCtx.user?.userId,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount}  
+  console.log('data checkout',data)  
+  console.log('booking ctx',bookingCtx)  
+  console.log('data in checkoutForm',{paymentId:bookingCtx.paymentId,userId:authCtx.user?.userId,hotelId:bookingCtx.hotel?._id,adult:bookingCtx.guest?.adult,children:bookingCtx.guest?.children,checkin:bookingCtx.date?.startFormat,checkout:bookingCtx.date?.endFormat,totalAmount:bookingCtx.totalAmount} )
   // paymentId,userId,hotelId,adult,children,checkin,checkout,totalAmount})                                                                                                                 
 
 

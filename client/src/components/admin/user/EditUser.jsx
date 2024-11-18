@@ -8,16 +8,20 @@ const URL =  `${API_BASE_URL}/user/signup` //http://localhost:8005/v1/user/signu
 
 const EditUser = () =>{
  const [user,setUser] = useState({name:'',email:'',password:''})
- const [error,setError] = useState(null)
-editProfile
+
+
  const navigate = useNavigate()
  const adminCtx = useContext(AdminContext)
+ console.log('call edit user com',adminCtx.editUserDetails)
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
-          console.log('adminCtx.editUserDetails',adminCtx.editUserDetails)
+          console.log('adminCtx.editUserDetails',adminCtx.editUserDetails,adminCtx.editUserDetails?._id)
+          console.log('user',user) 
          try{
           let data = await editProfile(adminCtx.editUserDetails?._id,user)
-          authCtx.signIn(data.user)
+          console.log('date after edit',data) 
+        //   authCtx.signIn(data.user)
           toast.success('Profile updated', {
             position: "top-right",
             autoClose: 5000,
@@ -36,14 +40,14 @@ editProfile
 
     const handleChange = (event) =>{
       
-        setError('')
         setUser({...user,[event.target.name]:event.target.value})
        
     }
 
     useEffect(()=>{
-     const {name,email,password,role} = adminCtx.editUserDetails
-      setUser({name,email,password})
+        console.log('adminCtx.editUserDetails',adminCtx.editUserDetails)
+     const {name,email} = adminCtx.editUserDetails
+      setUser({name,email})
     },[])
 
     return(

@@ -14,7 +14,7 @@ const Users = () =>{
     const fetchUser = async () =>{
        let data = await getUsers()
        setUsers(data.users)
-    }
+    } 
     useEffect(()=>{
       fetchUser()
     },[])
@@ -30,6 +30,7 @@ const Users = () =>{
                 autoClose: 5000,
                 hideProgressBar: false,
             });
+            fetchUser()
           }else{
             toast.error('Something wrong while delete user', {
                 position: "top-right",

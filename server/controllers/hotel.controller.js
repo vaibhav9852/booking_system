@@ -44,10 +44,12 @@ exports.addHotel = async (req,res) =>{
             coordinates: coordinates.split(',')
         })
         res.status(201).json({success:true,message:'hotel added',data:hotel})
+    }).catch(()=>{
+        res.status(400).json({success:false,message:'Cloudinary upload failed'})
     })
    
 }else{
-    res.status(400).json({success:true,message:'importent filled are required'})
+    res.status(400).json({success:false,message:'importent filled are required'})
 }
 }catch(err){
     res.status(500).json({success:false,message:'Internal server error'})
@@ -60,7 +62,7 @@ exports.getHotels = async (req,res) =>{
     try{
 
         let page = parseInt(req.query.page) || 1
-        let limit = 4 
+        let limit = 8
         let offset = (page-1) * limit 
         let hotels = await Hotel.find().skip(offset).limit(limit) 
         res.status(200).json({success:true,data:hotels})  

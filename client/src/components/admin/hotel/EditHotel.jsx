@@ -15,6 +15,7 @@ const EditHotel = () => {
 
     const adminCtx = useContext(AdminContext) 
     const bookingCtx = useContext(BookingContext)
+    
     const handleChange = (event) => {
         let type = event.target.type 
         if(type == 'file'){

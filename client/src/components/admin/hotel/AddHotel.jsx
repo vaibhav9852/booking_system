@@ -22,8 +22,15 @@ const AddHotel = () => {
   
     const handleClick = async (event) => {
       event.preventDefault();
+      if ((!hotel.name.trim().length && !hotel.location.trim().length) && !hotel.charge) {
+        toast.error('Something went wrong while add hotel', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+        });
+      }
       
-        if (hotel.name && hotel.location && hotel.charge) {
+        if (hotel.name.trim().length && hotel.location.trim().length && hotel.charge) {
             let formData = new FormData()
             hotel.photos?.map((photo) => formData.append('photos', photo))
             formData.append('name', hotel.name)
@@ -33,8 +40,9 @@ const AddHotel = () => {
             formData.append('available', hotel.available)
             formData.append('features',[...feature])
             formData.append('coordinates',bookingCtx.mapLocation) 
-           
+            setHotel({ name:'', location:'', description:'', charge:'', available:0, photos:[] })
             let data = await addHotel(formData)
+            
           
             if(data.success){
                 toast.success('Hotel added', {
@@ -42,7 +50,6 @@ const AddHotel = () => {
                     autoClose: 5000,
                     hideProgressBar: false,
                 });
-                setHotel({ name:'', location:'', description:'', charge:'', available:0, photos:[] })
                 setFeature([])
             }else{
                 toast.error('Something went wrong while add hotel', {
@@ -54,7 +61,7 @@ const AddHotel = () => {
 
 
         } else {
-            toast.error('fill hotel required field', {
+            toast.error('Please fill hotel details', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -93,7 +100,7 @@ const AddHotel = () => {
                         </div>
                         <div className=" flex justify-between py-4">
                             <lable className="mx-4 font-semibold text-gray-600 text-xl">Charge</lable>
-                            <input type="number" name='charge' value={hotel.charge} placeholder="Enter Available Room" className="px-5 border-2 " onChange={(event) => handleChange(event)} />
+                            <input type="number" name='charge' value={hotel.charge} placeholder="Enter room charge" min={0}  className="px-5 border-2 " onChange={(event) => handleChange(event)} />
                         </div>
                         <div className=" flex justify-between  py-4">
                             <lable className="mx-4 font-semibold text-gray-600 text-xl">Features</lable>

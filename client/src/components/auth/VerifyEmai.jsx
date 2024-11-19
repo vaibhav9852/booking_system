@@ -15,6 +15,7 @@ const VerifyEmail = () => {
     e.preventDefault();
     try {
     const data = await  verifyEmail(token)
+    console.log('data',data)
     if(data.success){
         authCtx.signIn(data.data)
         localStorage.setItem('user', JSON.stringify(data.data))
@@ -33,6 +34,7 @@ const VerifyEmail = () => {
     });
     }
     } catch (error) {
+      console.log('error',error)
       toast.error('Something went wrong while verify email. Please try again.', {
         position: "top-right",
         autoClose: 5000,

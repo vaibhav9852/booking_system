@@ -26,6 +26,7 @@ const Hotels = () =>{
             autoClose: 5000,
             hideProgressBar: false,
         });
+        fetchHotels();
       }else{
         toast.error('Something wrong while delete hotel', {
             position: "top-right",
@@ -36,12 +37,12 @@ const Hotels = () =>{
  
     }
 
-    useEffect(() =>{
-      const fetchHotels = async () =>{
-        let {data} = await  getHotels()
-        setHotels(data)
-      }
+    const fetchHotels = async () =>{
+      let {data} = await  getHotels()
+      setHotels(data)
+    }
 
+    useEffect(() =>{
       fetchHotels()
     },[])
 
